@@ -1,10 +1,16 @@
 from flask import Flask
 
+#Blueprints
+from app.routes.index_routes import bp_index
+
 #Inicialización
 app = Flask(__name__)
 
 #Configuración
 app.secret_key = "M&_S3cr3t_K3&"
+
+#Registro de Blueprints
+app.register_blueprint(bp_index)
 
 #Instancia
 if __name__ == '__main__':
