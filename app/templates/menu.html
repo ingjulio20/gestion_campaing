@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es" class="has-fixed-top">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bulma Framework -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bulmaswatch.min.css') }}">
+    {% block css %}
+    {% endblock %}
+    {% block header_scripts %}
+    {% endblock %}
+    <title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+    <nav class="navbar" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+            <a href="{{ url_for('index.dashboard') }}" class="navbar-item">
+                #YOMEATREVO
+            </a>
+        </div>
+        <div class="navbar-end"></div>
+    </nav>
+    {% block content %}
+    {% endblock %}
+</body>
+
+{% block foot_scripts %}
+{% endblock %}
+</html>
