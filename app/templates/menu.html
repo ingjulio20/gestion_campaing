@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Bulma Framework -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bulmaswatch.min.css') }}">
+    <!-- SweetAlert -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/sweetalert2.min.css') }}">
     {% block css %}
     {% endblock %}
     {% block header_scripts %}
@@ -14,16 +16,38 @@
 <body>
     <nav class="navbar" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
-            <a href="{{ url_for('index.dashboard') }}" class="navbar-item">
+            <a href="{{ url_for('index.main') }}" class="navbar-item">
                 #YOMEATREVO
             </a>
         </div>
-        <div class="navbar-end"></div>
+        <div class="navbar-menu">
+            <div class="navbar-start">
+                <a href="{{ url_for('usuarios.usuarios') }}" class="navbar-item">
+                    <span>Usuarios</span>
+                </a>
+                <a href="#" class="navbar-item">
+                    <span>Registro de Personas</span>
+                </a>
+            </div>
+        </div>
+        <div class="navbar-end">
+            <div class="navbar-item has-dropdown is-hoverable">
+                <a class="navbar-link">
+                    <span>User</span>
+                </a>
+                <div class="navbar-dropdown">
+                     <a href="#" class="navbar-item">
+                        <span>Salir</span>
+                    </a>
+                </div>
+            </div>
+        </div>
     </nav>
     {% block content %}
     {% endblock %}
 </body>
 
+<script src="{{ url_for('static', filename='sweetalert2.all.min.js') }}"></script>
 {% block foot_scripts %}
 {% endblock %}
 </html>
