@@ -6,12 +6,12 @@
 {% block header_scripts %}
 {% endblock %}
    
-{% block title %}Nuevo Usuario{% endblock %}
+{% block title %}Editar Usuario{% endblock %}
 
 {% block content %}
-<h4 class="title is-4">Nuevo Usuario</h4>
+<h4 class="title is-4">Editar Usuario</h4>
 <div class="container">
-    <form id="formAddUsuario" action="{{ url_for('usuarios.add_usuario') }}" method="post">
+    <form id="formUpdateUsuario" action="{{ url_for('usuarios.update_usuario') }}" method="post">
         <div class="card">
             <header class="card-header">
                 <p class="card-header-title">Ingrese la información</p>
@@ -24,7 +24,7 @@
                         </div>
                         <div class="field-body">
                             <div class="field">
-                                <input type="text" class="input is-normal" name="doc_usuario" id="doc_usuario" required>
+                                <input type="text" class="input is-normal" name="doc_usuario" id="doc_usuario" value="{{ usu[0] }}" required>
                             </div>
                         </div>
                     </div>
@@ -34,7 +34,7 @@
                         </div>
                         <div class="field-body">
                             <div class="field">
-                                <input type="text" class="input is-normal" name="nombre_completo" id="nombre_completo" required>
+                                <input type="text" class="input is-normal" name="nombre_completo" id="nombre_completo" value="{{ usu[1] }}" required>
                             </div>
                         </div>
                     </div>
@@ -44,7 +44,7 @@
                         </div>
                         <div class="field-body">
                             <div class="field">
-                                <input type="text" class="input is-normal" name="usuario" id="usuario" required>
+                                <input type="text" class="input is-normal" name="usuario" id="usuario" value="{{ usu[2] }}" required>
                             </div>
                         </div>
                     </div>
@@ -54,7 +54,7 @@
                         </div>
                         <div class="field-body">
                             <div class="field">
-                                <input type="password" class="input is-normal" name="password" id="password" required>
+                                <input type="password" class="input is-normal" name="password" id="password" value="{{ usu[3] }}" required>
                             </div>
                         </div>
                     </div>
@@ -71,7 +71,7 @@
                                                 <select name="perfil" id="perfil" required>
                                                     <option value=""></option>
                                                     {% for p in perfil %}
-                                                    <option value="{{ p.id_perfil }}">{{ p.nom_perfil }}</option>
+                                                    <option value="{{ p.id_perfil }}" {% if p.id_perfil == usu[4] %} selected {% endif %}>{{ p.nom_perfil }}</option>
                                                     {% endfor %}
                                                 </select>
                                             </span>
@@ -88,8 +88,8 @@
         <div class="field is-grouped is-grouped-centered">
             <p class="control">
                 <button type="submit" class="button is-success">
-                    <span class="icon is-small"><i aria-hidden="true"><img src="{{ url_for('static', filename='img/icons/guardar.png') }}" alt="icon"></i></span>
-                    <span>Guardar</span>
+                    <span class="icon is-small"><i aria-hidden="true"><img src="{{ url_for('static', filename='img/icons/actualizar.png') }}" alt="icon"></i></span>
+                    <span>Actualizar</span>
                 </button>
             </p>
             <p class="control">
@@ -104,5 +104,5 @@
 {% endblock %}
 
 {% block foot_scripts %}
-<script src="{{ url_for('static', filename='js/usuarios/nuevo_usuario.js') }}"></script>
+<script src="{{ url_for('static', filename='js/usuarios/editar_usuario.js') }}"></script>
 {% endblock %}

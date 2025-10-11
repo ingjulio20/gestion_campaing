@@ -28,8 +28,8 @@ btn_cancelar.addEventListener("click", (e) => {
 });
 
 /* Validar Formulario */
-const formAddUsuario = document.getElementById("formAddUsuario");
-formAddUsuario.addEventListener("submit", (e) => {
+const formUpdateUsuario = document.getElementById("formUpdateUsuario");
+formUpdateUsuario.addEventListener("submit", (e) => {
     let docUsuario = doc_usuario.value;
     let nombreCompleto = nombre_completo.value;
     let user = usuario.value;

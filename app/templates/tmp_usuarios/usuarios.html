@@ -40,7 +40,7 @@
                             <td class="valor_usuario">{{ u.usuario }}</td>
                             <td>{{ u.perfil }}</td>
                             <td>
-                                <a href="" class="button is-small is-info has-tooltip-bottom" data-tooltip="Editar" style="padding: 0em 1.0em;">
+                                <a href="{{ url_for('usuarios.editar_usuario', usuario = u.usuario ) }}" class="button is-small is-info has-tooltip-bottom" data-tooltip="Editar" style="padding: 0em 1.0em;">
                                     <span class="icon is-small"><i><img src="{{ url_for('static', filename='img/icons/editar.png') }}" alt="icon"></i></span>
                                 </a>
                                 <a class="enlace_eliminar button is-small is-danger has-tooltip-bottom" data-tooltip="Eliminar" style="padding: 0em 1.0em;">

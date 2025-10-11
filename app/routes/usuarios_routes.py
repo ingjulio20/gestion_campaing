@@ -54,12 +54,12 @@ def drop_usuario(usuario):
         flash(f"Se presentó un error inesperado: {ex}", "error")
         return redirect(url_for('usuarios.usuarios'))
     
-@bp_usuarios.get('/edit_usuario/<usuario>')
-def edit_usuario(usuario):
+@bp_usuarios.get('/editar_usuario/<usuario>')
+def editar_usuario(usuario):
     try:
         usu = usuarios_service.listar_usuario_nombre(usuario)
         perfil = usuarios_service.listar_perfiles_usuario()
-        return render_template('temp_usuarios/edit_usuario.html', usu = usu , perfil = perfil)
+        return render_template('tmp_usuarios/editar_usuario.html', usu = usu , perfil = perfil)
 
     except error.Error as e:
         flash(f"Se presentó un error inesperado: {e.msg}", "error")
@@ -69,8 +69,8 @@ def edit_usuario(usuario):
         flash(f"Se presentó un error inesperado: {ex}", "error")
         return redirect(url_for('usuarios.usuarios'))
 
-@bp_usuarios.post('/f_updateUsuario')
-def f_updateUsuario():
+@bp_usuarios.post('/update_usuario')
+def update_usuario():
     try:
         doc_usuario = request.form["doc_usuario"]
         nombre_completo = request.form["nombre_completo"]
