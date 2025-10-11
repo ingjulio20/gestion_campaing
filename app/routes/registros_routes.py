@@ -49,3 +49,11 @@ def add_registro():
     except Exception as ex:
         flash(f"Se presentó un error inesperado: {ex}", "error")
         return redirect(url_for('registros.registros'))
+
+@bp_registros.get('/editar_registro/<int:id>')
+def editar_registro(id):
+    registro = registros_service.list_registro_id(id)
+    tipos = documentos_service.list_tipoDocumentos()
+    deptos = deptos_service.list_departamentos()
+    etnias = etnias_service.list_etnias()
+    return render_template('tmp/editar_registro.html', registro = registro, tipos = tipos, deptos = deptos, etnias = etnias)
