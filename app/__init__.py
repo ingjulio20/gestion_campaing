@@ -4,6 +4,7 @@ from flask_bcrypt import Bcrypt
 #Blueprints
 from app.routes.index_routes import bp_index
 from app.routes.usuarios_routes import bp_usuarios
+from app.routes.registros_routes import bp_registros
 
 #Inicialización
 app = Flask(__name__)
@@ -15,6 +16,7 @@ bcrypt = Bcrypt(app)
 #Registro de Blueprints
 app.register_blueprint(bp_index)
 app.register_blueprint(bp_usuarios)
+app.register_blueprint(bp_registros)
 
 #Ruta Metodo para verificar las URL y Redireccionar al Login
 @app.before_request

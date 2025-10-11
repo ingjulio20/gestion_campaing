@@ -1,0 +1,49 @@
+{% extends 'menu.html' %}
+
+{% block css %}
+{% endblock %}
+
+{% block header_scripts %}
+{% endblock %}
+
+{% block title %}Registro de Votantes{% endblock %}
+
+{% block content %}
+<h4 class="title is-4">Registro de Votantes</h4>
+<div class="container">
+    <div class="field is-grouped">
+        <p class="control">
+            <a href="{{ url_for('registros.nuevo_registro') }}" class="button is-normal is-info">
+                <span class="icon is-small"><img src="{{ url_for('static', filename='img/icons/añadir.png') }}" alt="icon-añadir"></span>
+                <span>Nuevo Registro</span>
+            </a>
+        </p>
+    </div>
+    <div class="card">
+        <header class="card-header">
+            <p class="card-header-title">Registros de Personas</p>
+        </header>
+        <div class="card-content">
+            <div class="content">
+                <table id="tablaRegistros" class="table is-striped" style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th scope="col" style="width: 20%;">ID</th>
+                            <th scope="col" style="width: 20%;">NUIP</th>
+                            <th scope="col" style="width: 20%;">Nombre Completo</th>
+                            <th scope="col" style="width: 20%;">Registrado Por</th>
+                            <th scope="col" style="width: 20%;">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block foot_scripts %}
+{% endblock %}

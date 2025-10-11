@@ -1,0 +1,143 @@
+{% extends 'menu.html' %}
+
+{% block css %}
+{% endblock %}
+
+{% block header_scripts %}
+{% endblock %}
+
+{% block title %}Nuevo Registro{% endblock %}
+
+{% block content %}
+<h4 class="title is-4">Nuevo Registro</h4>
+<div class="container">
+    <form id="formAddRegistro" action="#" method="post">
+        <div class="card">
+            <header class="card-header">
+                <p class="card-header-title">Ingrese la información</p>
+            </header>
+            <div class="card-content">
+                <div class="content">
+                    <div class="field is-horizontal">
+                        <div class="field-label">
+                            <label for="tipo_documento" class="label is-small">Tipo documento: <strong style="color: red;">*</strong></label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <p class="control">
+                                    <span class="select">
+                                        <select name="tipo_documento" id="tipo_documento" required>
+                                            <option value=""></option>
+                                            {% for tipo in tipos %}
+                                            <option value="{{ tipo.cod_tipo }}">{{ tipo.nom_tipo }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field is-horizontal">
+                        <div class="field-label">
+                            <label for="nuip" class="label">Nro. documento: <strong style="color: red;">*</strong></label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <p class="control">
+                                    <input type="text" name="nuip" id="nuip" class="input" required>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field is-horizontal">
+                        <div class="field-label">
+                            <label for="nombre_completo" class="label">Nombre Completo: <strong style="color: red;">*</strong></label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <p class="control">
+                                    <input type="text" name="nombre_completo" id="nombre_completo" class="input" required>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field is-horizontal">
+                        <div class="field-label">
+                            <label for="fecha_nacimiento" class="label">Fecha Nacimiento: <strong style="color: red;">*</strong></label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <p class="control">
+                                    <input type="date" name="fecha_nacimiento" id="fecha_nacimiento" class="input" required>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field is-horizontal">
+                        <div class="field-label">
+                            <label for="direccion" class="label">Dirección: <strong style="color: red;">*</strong></label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <p class="control">
+                                    <input type="text" name="direccion" id="direccion" class="input" required>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field is-horizontal">
+                        <div class="field-label">
+                            <label for="telefono" class="label">Teléfonos: <strong style="color: red;">*</strong></label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <p class="control">
+                                    <input type="text" name="telefono" id="telefono" class="input" required>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field is-horizontal">
+                        <div class="field-label">
+                            <label for="email" class="label">Correo electronico: <strong style="color: red;">*</strong></label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <p class="control">
+                                    <input type="email" name="email" id="email" class="input" required>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field is-horizontal">
+                        <div class="field-label">
+                            <label for="depto" class="label">Departamento: <strong style="color: red;">*</strong></label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field is-grouped">
+                                <p class="control">
+                                    <span class="select">
+                                        <select name="depto" id="depto" required>
+                                            <option value=""></option>
+                                            {% for depto in deptos %}
+                                            <option value="{{ depto.cod_depto }}">{{ depto.nom_depto }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </span>
+                                </p>
+                                <p class="control is-expanded" hidden>
+                                    <input type="text" name="nom_depto" id="nom_depto" class="input" hidden>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+{% block foot_scripts %}
+<script src="{{ url_for('static', filename='js/registros/nuevo_registro.js') }}"></script>
+{% endblock %}
