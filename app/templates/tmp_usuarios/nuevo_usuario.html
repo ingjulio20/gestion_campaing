@@ -11,7 +11,7 @@
 {% block content %}
 <h4 class="title is-4">Nuevo Usuario</h4>
 <div class="container">
-    <form action="#" method="post">
+    <form id="formAddUsuario" action="{{ url_for('usuarios.add_usuario') }}" method="post">
         <div class="card">
             <header class="card-header">
                 <p class="card-header-title">Ingrese la información</p>
@@ -82,25 +82,27 @@
                         </div>
                     </div>
                 </div>
-                <div class="field is-grouped is-grouped-centered">
-                    <p class="control">
-                        <button type="submit" class="button is-success">
-                            <span class="icon is-small"><i aria-hidden="true"><img src="{{ url_for('static', filename='img/icons/guardar.png') }}" alt="icon"></i></span>
-                            <span>Guardar</span>
-                        </button>
-                    </p>
-                    <p class="control">
-                        <a onclick="confirmacion()" class="button is-danger">
-                            <span class="icon is-small"><i aria-hidden="true"><img src="{{ url_for('static', filename='img/icons/cancelar.png') }}" alt="icon"></i></span>
-                            <span>Cancelar</span>
-                        </a>
-                    </p>
-                </div>
             </div>
+        </div>
+        <hr>
+        <div class="field is-grouped is-grouped-centered">
+            <p class="control">
+                <button type="submit" class="button is-success">
+                    <span class="icon is-small"><i aria-hidden="true"><img src="{{ url_for('static', filename='img/icons/guardar.png') }}" alt="icon"></i></span>
+                    <span>Guardar</span>
+                </button>
+            </p>
+            <p class="control">
+                <a id="btn_cancelar" class="button is-danger">
+                    <span class="icon is-small"><i aria-hidden="true"><img src="{{ url_for('static', filename='img/icons/cancelar.png') }}" alt="icon"></i></span>
+                    <span>Cancelar</span>
+                </a>
+            </p>
         </div>
     </form>
 </div>
 {% endblock %}
 
 {% block foot_scripts %}
+<script src="{{ url_for('static', filename='js/usuarios/nuevo_usuario.js') }}"></script>
 {% endblock %}

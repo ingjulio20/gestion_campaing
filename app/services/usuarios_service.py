@@ -31,7 +31,7 @@ def listar_usuario_nombre(nombre):
 def listar_perfiles_usuario():
     perfiles = []
     conn = db.connection()
-    query = "SELECT * FROM perfiles_usuario"
+    query = "SELECT * FROM perfiles_usuarios"
     with conn.cursor() as cursor:
         cursor.execute(query)
         result = cursor.fetchall()

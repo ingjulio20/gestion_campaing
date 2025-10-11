@@ -13,7 +13,7 @@
 <div class="container">
     <div class="field is-grouped">
         <p class="control">
-            <a href="" class="button is-normal is-info">
+            <a href="{{ url_for('usuarios.nuevo_usuario') }}" class="button is-normal is-info">
                 <span class="icon is-small"><img src="{{ url_for('static', filename='img/icons/añadir.png') }}" alt="icon-añadir"></span>
                 <span>Nuevo Usuario</span>
             </a>
@@ -25,7 +25,32 @@
         </header>
         <div class="card-content">
             <div class="content">
-                
+                <!-- Tabla Usuarios -->
+                <table id="tablaUsuarios" class="table is-striped" style="width: 100%;">
+                    <thead>
+                        <th scope="col">Nombre Completo</th>
+                        <th scope="col">Usuario</th>
+                        <th scope="col">Perfil</th>
+                        <th scope="col">Acciones</th>
+                    </thead>
+                    <tbody>
+                        {% for u in usu %}
+                        <tr>
+                            <td>{{ u.nombre_completo }}</td>
+                            <td class="valor_usuario">{{ u.usuario }}</td>
+                            <td>{{ u.perfil }}</td>
+                            <td>
+                                <a href="" class="button is-small is-info has-tooltip-bottom" data-tooltip="Editar" style="padding: 0em 1.0em;">
+                                    <span class="icon is-small"><i><img src="{{ url_for('static', filename='img/icons/editar.png') }}" alt="icon"></i></span>
+                                </a>
+                                <a class="enlace_eliminar button is-small is-danger has-tooltip-bottom" data-tooltip="Eliminar" style="padding: 0em 1.0em;">
+                                    <span class="icon is-small"><i><img src="{{ url_for('static', filename='img/icons/basura.png') }}" alt="icon"></i></span>
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -33,4 +58,49 @@
 {% endblock %}
 
 {% block foot_scripts %}
+{% with messages = get_flashed_messages(with_categories=True) %}
+    {% if messages %}
+        {% for category, message in messages %}
+        <script>
+            Swal.fire({
+                title: "Notificación!",
+                text: "{{ message }}",
+                icon: "{{ category }}"
+            });
+        </script>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+<script src="{{ url_for('static', filename='js/usuarios/usuarios.js') }}"></script>
+<script>
+   /* Script de Confirmación para eliminar */
+    const confirmacion = (usuario) => {
+        Swal.fire({
+            title: "Esta Seguro(a)?",
+            text: "Esta acción no se puede revertir!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Si, Eliminar!",
+            confirmButtonColor: "#48c78e",
+            cancelButtonText: "No, Cancelar",
+            cancelButtonColor: "#f14668",
+            showCancelButton: true,
+            allowOutsideClick: false
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = `/drop_Usuario/${usuario}`
+            }
+        });
+    }
+
+    $(document).ready(function(){
+        $('#tablaUsuarios').off('click', '.enlace_eliminar').on('click', '.enlace_eliminar', function(event){
+            event.preventDefault();
+            const fila = $(this).closest('tr')
+            let usuario = fila.find('.valor_usuario').text();
+            confirmacion(usuario);
+        })
+    })
+</script>
 {% endblock %}
