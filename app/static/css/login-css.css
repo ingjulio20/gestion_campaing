@@ -1,0 +1,25 @@
+.is-two-thirds {
+    background-image: url('/static/img/bgHealth.png');
+    background-size: cover;
+    height: 100vh /* 697px; */
+  }
+
+  .container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .container > .login {
+    height: auto;
+    width: 100%;
+    max-width: 570px;
+    max-height: 335px;
+  }
+
+  .centrar-imagen{
+    display: block;
+    margin: 0 auto;
+  }

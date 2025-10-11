@@ -17,7 +17,7 @@
     {% endblock %}
     {% block header_scripts %}
     {% endblock %}
-    <title>{% block title %}{% endblock %}</title>
+    <title>{% block title %}- Gestión Campaña{% endblock %}</title>
 </head>
 <body>
     <nav class="navbar" role="navigation" aria-label="main navigation">
@@ -39,10 +39,12 @@
         <div class="navbar-end">
             <div class="navbar-item has-dropdown is-hoverable">
                 <a class="navbar-link">
-                    <span>User</span>
+                    <span>{{ session['name'] }}</span>
+                    <span name="profile" id="profile" hidden>{{ session['profile'] }}</span>
                 </a>
                 <div class="navbar-dropdown">
-                     <a href="#" class="navbar-item">
+                     <a href="{{ url_for('index.logout')}}" class="navbar-item">
+                        <span class="icon is-small"><img src="{{ url_for('static', filename='img/icons/salida.png') }}" alt="icon-salida"></span>
                         <span>Salir</span>
                     </a>
                 </div>

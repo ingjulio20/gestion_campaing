@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block CSS %}
+<!-- Bulma Framework -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/bulmaswatch.min.css') }}">
+<!-- Favicon -->
+<link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.ico')}}" type="image/x-icon">
+<!-- SweetAlert -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/sweetalert2.min.css') }}">
+<!-- FA icons -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome-4.7.0/css/font-awesome.min.css')}}">
+<!-- Css Login Personal -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/login-css.css')}}">
+{% endblock %}
+{% block title %} Gestión Campaña {% endblock %}
+
+{% block content %}
+<div class="columns">
+    <div class="column is-two-thirds"></div>
+    <div class="column">     
+      <div class="container">
+        <div class="box login">
+          <img class="centrar-imagen" src="{{url_for('static', filename='img/clinixone.webp')}}" alt="logo_clinixone" width="170px" height="110px">
+          <!-- <td><img class="centrar-imagen" src="{{url_for('static', filename='assets/logo_empresa.webp')}}" alt="logo_empresa"></td> -->
+          <form id="formLoginAccess" action="{{ url_for('index.login_access') }}" method="post">
+            <div class="field">
+              <p class="control has-icons-left">
+                <input class="input" type="text" placeholder="Usuario" name="userId" id="userId">
+                <span class="icon is-small is-left">
+                  <i class="fa fa-user"></i>
+                </span>
+              </p>
+            </div>
+            <div class="field">
+              <p class="control has-icons-left">
+                <input class="input" type="password" placeholder="Contraseña" name="userPass" id="userPass">
+                <span class="icon is-small is-left">
+                  <i class="fa fa-lock"></i>
+                </span>
+              </p>
+            </div>
+            <div class="field">
+              <button type="submit" class="button is-info is-fullwidth">
+                <span class="icon is-small">
+                  <i class="fa fa-sign-in"></i>
+                </span>
+                <span>Iniciar Sesión</span>
+              </button>
+            </div>
+          </form>
+          <div class="columns">
+            <div class="column is-four-fifths"></div>
+            <div class="column">
+              <p style="text-align: right;"><strong>v. 1.0.0</strong></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+        <script>
+            document.addEventListener('DOMContentLoaded', () =>{
+            Swal.fire({
+                title: "Notificación!",
+                text: "{{ message }}",
+                icon: "{{ category }}"
+            });
+            });
+        </script>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+<script src="{{ url_for('static', filename='js/sweetalert2.all.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/login/login.js') }}"></script>
+{% endblock %}
