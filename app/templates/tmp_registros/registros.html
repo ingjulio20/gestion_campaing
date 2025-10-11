@@ -14,7 +14,7 @@
     <div class="field is-grouped">
         <p class="control">
             <a href="{{ url_for('registros.nuevo_registro') }}" class="button is-normal is-info">
-                <span class="icon is-small"><img src="{{ url_for('static', filename='img/icons/añadir.png') }}" alt="icon-añadir"></span>
+                <span class="icon is-small"><i aria-hidden="true"><img src="{{ url_for('static', filename='img/icons/añadir.png') }}" alt="icon-añadir"></i></span>
                 <span>Nuevo Registro</span>
             </a>
         </p>
@@ -28,15 +28,25 @@
                 <table id="tablaRegistros" class="table is-striped" style="width: 100%;">
                     <thead>
                         <tr>
-                            <th scope="col" style="width: 20%;">ID</th>
-                            <th scope="col" style="width: 20%;">NUIP</th>
-                            <th scope="col" style="width: 20%;">Nombre Completo</th>
+                            <th scope="col" style="width: 10%;">ID</th>
+                            <th scope="col" style="width: 10%;">NUIP</th>
+                            <th scope="col" style="width: 30%;">Nombre Completo</th>
                             <th scope="col" style="width: 20%;">Registrado Por</th>
                             <th scope="col" style="width: 20%;">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
+                        {% for registro in registros %}
+                        <tr>
+                            <td style="width: 10%;">{{ registro.ID }}</td>
+                            <td style="width: 10%;">{{ registro.nuip }}</td>
+                            <td style="width: 30%;">{{ registro.nombre }}</td>
+                            <td style="width: 30%;">{{ registro.usuario }}</td>
+                            <td style="width: 20%;">
 
+                            </td>
+                        </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>
@@ -46,4 +56,17 @@
 {% endblock %}
 
 {% block foot_scripts %}
+{% with messages = get_flashed_messages(with_categories=True) %}
+    {% if messages %}
+        {% for category, message in messages %}
+        <script>
+            Swal.fire({
+                title: "Notificación!",
+                text: "{{ message }}",
+                icon: "{{ category }}"
+            });
+        </script>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
 {% endblock %}

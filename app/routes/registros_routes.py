@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
-from app.services import documentos_service, deptos_service, registros_service
+from app.services import documentos_service, deptos_service, etnias_service, registros_service
 import mysql.connector.errors as error
 
 #Blueprint
@@ -8,10 +8,44 @@ bp_registros = Blueprint('registros', __name__)
 #Rutas
 @bp_registros.get('/registros')
 def registros():
-    return render_template('tmp_registros/registros.html')
+    registros = registros_service.list_registros()
+    return render_template('tmp_registros/registros.html', registros = registros)
 
 @bp_registros.get('/nuevo_registro')
 def nuevo_registro():
     tipos = documentos_service.list_tipoDocumentos()
     deptos = deptos_service.list_departamentos()
-    return render_template('tmp_registros/nuevo_registro.html', tipos = tipos, deptos = deptos)
+    etnias = etnias_service.list_etnias()
+    return render_template('tmp_registros/nuevo_registro.html', tipos = tipos, deptos = deptos, etnias = etnias)
+
+@bp_registros.post('/add_registro')
+def add_registro():
+    try:
+        tipo_documento = request.form["tipo_documento"]
+        nuip = request.form["nuip"]
+        nombre_completo = request.form["nombre_completo"]
+        fecha_nacimiento = request.form["fecha_nacimiento"]
+        direccion = request.form["direccion"]
+        telefono = request.form["telefono"]
+        email = request.form["email"]
+        depto = request.form["depto"]
+        nom_depto = request.form["nom_depto"]
+        municipio = request.form["municipio"]
+        nom_municipio = request.form["nom_municipio"]
+        sexo = request.form["sexo"]
+        etnia = request.form["etnia"]
+        usuario_registro = request.form["usuario_registro"]
+
+        registros_service.insert_registro(tipo_documento, nuip, nombre_completo, fecha_nacimiento, direccion, telefono,
+                                          email, depto, nom_depto, municipio, nom_municipio, sexo, etnia, usuario_registro)
+        
+        flash("Registro Guardado Exitosamente!", "success")
+        return redirect(url_for('registros.registros'))
+    
+    except error.Error as e:
+        flash(f"Se presentó un error inesperado: {e.msg}", "error")
+        return redirect(url_for('registros.registros'))
+    
+    except Exception as ex:
+        flash(f"Se presentó un error inesperado: {ex}", "error")
+        return redirect(url_for('registros.registros'))

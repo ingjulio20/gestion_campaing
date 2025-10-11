@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" class="has-fixed-top">
+<html lang="es" class="">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,10 +17,16 @@
     {% endblock %}
     {% block header_scripts %}
     {% endblock %}
+    <style>
+        /* Ajusta este valor según la altura real del navbar */
+        .main-content {
+        padding-top: 3.25rem; /* Altura típica del navbar en Bulma */
+        }
+    </style>
     <title>{% block title %}- Gestión Campaña{% endblock %}</title>
 </head>
 <body>
-    <nav class="navbar" role="navigation" aria-label="main navigation">
+    <nav class="navbar is-fixed-top has-shadow" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
             <a href="{{ url_for('index.main') }}" class="navbar-item">
                 #YOMEATREVO
@@ -51,8 +57,10 @@
             </div>
         </div>
     </nav>
-    {% block content %}
-    {% endblock %}
+    <div class="main-content">
+        {% block content %}
+        {% endblock %}
+    </div>
 </body>
 
 <script src="{{ url_for('static', filename='js/sweetalert2.all.min.js') }}"></script>

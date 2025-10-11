@@ -11,13 +11,16 @@
 {% block content %}
 <h4 class="title is-4">Nuevo Registro</h4>
 <div class="container">
-    <form id="formAddRegistro" action="#" method="post">
+    <form id="formAddRegistro" action="{{ url_for('registros.add_registro') }}" method="post">
         <div class="card">
             <header class="card-header">
                 <p class="card-header-title">Ingrese la información</p>
             </header>
             <div class="card-content">
                 <div class="content">
+                    <p class="control" hidden>
+                        <input type="text" name="usuario_registro" id="usuario_registro" value="{{ session['name'] }}" class="input" readonly>
+                    </p>
                     <div class="field is-horizontal">
                         <div class="field-label">
                             <label for="tipo_documento" class="label is-small">Tipo documento: <strong style="color: red;">*</strong></label>
@@ -126,14 +129,14 @@
                                     </span>
                                 </p>
                                 <p class="control is-expanded" hidden>
-                                    <input type="text" name="nom_depto" id="nom_depto" class="input" hidden>
+                                    <input type="text" name="nom_depto" id="nom_depto" class="input" readonly>
                                 </p>
                             </div>
                         </div>
                     </div>
                     <div class="field is-horizontal">
                         <div class="field-label">
-                            <label for="municipio" class="label is-small">Municipio <strong style="color: red;">*</strong></label>
+                            <label for="municipio" class="label is-small">Municipio: <strong style="color: red;">*</strong></label>
                         </div>
                         <div class="field-body">
                             <div class="field is-grouped">
@@ -143,13 +146,64 @@
                                     </span>
                                 </p>
                                 <p class="control is-expanded" hidden>
-                                    <input type="text" name="municipio" id="municipio" class="input">
+                                    <input type="text" name="nom_municipio" id="nom_municipio" class="input" readonly>
                                 </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field is-horizontal">
+                        <div class="field-label">
+                            <label for="sexo" class="label">Sexo: <strong style="color: red;">*</strong></label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <p class="control">
+                                    <span class="select">
+                                        <select name="sexo" id="sexo" required>
+                                            <option value=""></option>
+                                            <option value="H">Hombre</option>
+                                            <option value="M">Mujer</option>
+                                            <option value="I">Inderterminado o Intersexual</option>
+                                        </select>
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field is-horizontal">
+                        <div class="field-label">
+                            <label for="etnia" class="label">Etnia o Grupo: <strong style="color: red;">*</strong></label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <span class="select">
+                                    <select name="etnia" id="etnia" required>
+                                        <option value=""></option>
+                                        {% for etnia in etnias %}
+                                        <option value="{{ etnia.cod_etnia }}">{{ etnia.nom_etnia }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </span>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+        <hr>
+        <div class="field is-grouped is-grouped-centered">
+            <p class="control">
+                <button type="submit" class="button is-success">
+                    <span class="icon is-small"><i aria-hidden="true"><img src="{{ url_for('static', filename='img/icons/guardar.png') }}" alt="icon-guardar"></i></span>
+                    <span>Guardar</span>
+                </button>
+            </p>
+            <p class="control">
+                <a id="btn_cancelar" class="button is-danger">
+                    <span class="icon is-small"><i aria-hidden="true"><img src="{{ url_for('static', filename='img/icons/cancelar.png') }}" alt="icon-cancelar"></i></span>
+                    <span>Cancelar</span>
+                </a>
+            </p>
         </div>
     </form>
 </div>
