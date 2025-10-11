@@ -1,0 +1,106 @@
+{% extends 'menu.html' %}
+
+{% block css %}
+{% endblock %}
+
+{% block header_scripts %}
+{% endblock %}
+   
+{% block title %}{% endblock %}
+
+{% block content %}
+<h4 class="title is-4">Nuevo Usuario</h4>
+<div class="container">
+    <form action="#" method="post">
+        <div class="card">
+            <header class="card-header">
+                <p class="card-header-title">Ingrese la información</p>
+            </header>
+            <div class="card-content">
+                <div class="content">
+                    <div class="field is-horizontal">
+                        <div class="field-label">
+                            <label for="" class="label is-normal">Nro. Documento: <strong style="color: red;">*</strong></label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <input type="text" class="input is-normal" name="doc_usuario" id="doc_usuario" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field is-horizontal">
+                        <div class="field-label">
+                            <label for="" class="label is-normal">Nombre Completo: <strong style="color: red;">*</strong></label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <input type="text" class="input is-normal" name="nombre_completo" id="nombre_completo" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field is-horizontal">
+                        <div class="field-label">
+                            <label for="" class="label is-normal">Usuario: <strong style="color: red;">*</strong></label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <input type="text" class="input is-normal" name="usuario" id="usuario" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field is-horizontal">
+                        <div class="field-label">
+                            <label for="" class="label is-normal">Contraseña: <strong style="color: red;">*</strong></label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <input type="password" class="input is-normal" name="password" id="password" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field is-horizontal">
+                        <div class="field-label">
+                            <label for="" class="label is-normal">Perfil: <strong style="color: red;">*</strong></label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <div class="field-body">
+                                    <div class="field has-addons">
+                                        <p class="control">
+                                            <span class="select is-normal">
+                                                <select name="perfil" id="perfil" required>
+                                                    <option value=""></option>
+                                                    {% for p in perfil %}
+                                                    <option value="{{ p.id_perfil }}">{{ p.nom_perfil }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="field is-grouped is-grouped-centered">
+                    <p class="control">
+                        <button type="submit" class="button is-success">
+                            <span class="icon is-small"><i aria-hidden="true"><img src="{{ url_for('static', filename='img/icons/guardar.png') }}" alt="icon"></i></span>
+                            <span>Guardar</span>
+                        </button>
+                    </p>
+                    <p class="control">
+                        <a onclick="confirmacion()" class="button is-danger">
+                            <span class="icon is-small"><i aria-hidden="true"><img src="{{ url_for('static', filename='img/icons/cancelar.png') }}" alt="icon"></i></span>
+                            <span>Cancelar</span>
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+{% block foot_scripts %}
+{% endblock %}

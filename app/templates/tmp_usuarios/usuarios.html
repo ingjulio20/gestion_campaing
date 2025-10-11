@@ -6,7 +6,7 @@
 {% block header_scripts %}
 {% endblock %}
    
-{% block title %}{% endblock %}
+{% block title %}Usuarios del Sistema{% endblock %}
 
 {% block content %}
 <h4 class="title is-4">Usuarios del Sistema</h4>
@@ -14,10 +14,20 @@
     <div class="field is-grouped">
         <p class="control">
             <a href="" class="button is-normal is-info">
-                <span class="icon is-small"></span>
+                <span class="icon is-small"><img src="{{ url_for('static', filename='img/icons/añadir.png') }}" alt="icon-añadir"></span>
                 <span>Nuevo Usuario</span>
             </a>
         </p>
+    </div>
+    <div class="card">
+        <header class="card-header">
+            <p class="card-header-title">Registros de Usuarios</p>
+        </header>
+        <div class="card-content">
+            <div class="content">
+                
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}
