@@ -14,4 +14,14 @@ def list_departamentos():
     return departamentos
 
 def list_municipios(cod_depto):
-    pass
+    municipios = []
+    conn = db.connection()
+    operation = """ SELECT cod_municipio, nom_municipio FROM municipios WHERE cod_depto = %s """
+    with conn.cursor() as cursor:
+        cursor.execute(operation, (cod_depto, ))
+        result = cursor.fetchall()
+        for row in result:
+            municipios.append({'cod_municipio': row[0], 'nom_municipio': row[1]})
+
+    conn.close()
+    return municipios        
