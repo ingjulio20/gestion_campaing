@@ -1,5 +1,6 @@
 from app.database import db
 
+#Nuevo Registro
 def insert_registro(tipo_documento, nuip, nombre_completo, fecha_nacimiento, direccion, telefono, email,
                     depto, nom_depto, municipio, nom_municipio, sexo, etnia, usuario_registro):
     
@@ -17,7 +18,7 @@ def insert_registro(tipo_documento, nuip, nombre_completo, fecha_nacimiento, dir
         conn.commit()
         conn.close()
 
-
+#Actualizar datos de Registro
 def update_registro(tipo_documento, nuip, nombre_completo, fecha_nacimiento, direccion, telefono, email,
                     depto, nom_depto, municipio, nom_municipio, sexo, etnia, id_registro):
     
@@ -34,6 +35,7 @@ def update_registro(tipo_documento, nuip, nombre_completo, fecha_nacimiento, dir
         conn.commit()
         conn.close()
 
+#Eliminar Registro
 def delete_registro(id_registro):
     conn = db.connection()
     operation = """ DELETE FROM registros WHERE id_registro = %s """
@@ -42,6 +44,7 @@ def delete_registro(id_registro):
         conn.commit()
         conn.close()
 
+#Listar todos los registros
 def list_registros():
     registros = []
     conn = db.connection()
@@ -55,6 +58,7 @@ def list_registros():
     conn.close()
     return registros
 
+#Listar Registro por ID
 def list_registro_id(id_registro):
     registro = None
     conn = db.connection()
@@ -65,4 +69,32 @@ def list_registro_id(id_registro):
         registro = result
 
     conn.close()
-    return registro    
+    return registro
+
+#Contar Todos los Registros
+def count_registros():
+    conteo = None
+    conn = db.connection()
+    operation = """ SELECT COUNT(*) FROM registros """
+    with conn.cursor() as cursor:
+        cursor.execute(operation)
+        conteo = cursor.fetchone()
+
+    conn.close()
+    return conteo
+
+#Contar Todos los Registros por Departamento
+def count_registros_x_depto():
+    registros_depto = []
+    conn = db.connection()
+    operation = """ SELECT COUNT(nom_depto), nom_depto FROM registros 
+                    GROUP BY nom_depto """
+    
+    with conn.cursor() as cursor:
+        cursor.execute(operation)
+        result = cursor.fetchall()
+        for row in result:
+            registros_depto.append({'numero': row[0], 'depto': row[1]})
+    
+    conn.close()
+    return registros_depto

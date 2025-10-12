@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, session
 from flask_bcrypt import Bcrypt
-from app.services import usuarios_service
+from app.services import usuarios_service, registros_service
 
 #Blueprint
 bp_index = Blueprint('index', __name__)
@@ -14,7 +14,9 @@ def index():
 
 @bp_index.get('/main')
 def main():
-    return render_template('main.html')
+    conteo = registros_service.count_registros()
+    registros_depto = registros_service.count_registros_x_depto()
+    return render_template('main.html', conteo = conteo, registros_depto = registros_depto)
 
 #Ruta Metodo Post Recorrido BD usuarios y perfiles y acceso
 @bp_index.post('/login_access')

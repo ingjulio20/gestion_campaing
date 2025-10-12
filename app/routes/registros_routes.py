@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash
+from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify
 from app.services import documentos_service, deptos_service, etnias_service, registros_service
 import mysql.connector.errors as error
 
@@ -88,4 +88,14 @@ def update_registro():
 
     except Exception as ex:
         flash(f"Se presentó un error inesperado: {ex}", "error")
-        return redirect(url_for('registros.registros')) 
+        return redirect(url_for('registros.registros'))
+ 
+@bp_registros.get('/getRegistrosDepto')
+def getRegistrosDepto():
+    try:
+        registros_depto = registros_service.count_registros_x_depto()
+        if registros_depto:
+            return jsonify(registros_depto)
+
+    except Exception as ex:
+        return jsonify(ex)        
