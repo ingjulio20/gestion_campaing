@@ -1,0 +1,216 @@
+{% extends 'menu.html' %}
+
+{% block css %}
+{% endblock %}
+
+{% block header_scripts %}
+{% endblock %}
+
+{% block title %}Editar Registro{% endblock %}
+
+{% block content %}
+<h4 class="title is-4">Editar Registro</h4>
+<div class="container">
+    <form id="formUpdateRegistro" action="{{ url_for('registros.update_registro') }}" method="post">
+        <div class="card">
+            <header class="card-header">
+                <p class="card-header-title">Ingrese la información</p>
+            </header>
+            <div class="card-content">
+                <div class="content">
+                    <p class="control" hidden>
+                        <input type="text" name="usuario_registro" id="usuario_registro" value="{{ session['name'] }}" class="input" readonly>
+                    </p>
+                    <p class="control" hidden>
+                        <input type="text" name="id_registro" id="id_registro" value="{{ registro[0] }}" class="input" readonly>
+                    </p>
+                    <div class="field is-horizontal">
+                        <div class="field-label">
+                            <label for="tipo_documento" class="label is-small">Tipo documento: <strong style="color: red;">*</strong></label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <p class="control">
+                                    <span class="select">
+                                        <select name="tipo_documento" id="tipo_documento" required>
+                                            {% for tipo in tipos %}
+                                            <option value="{{ tipo.cod_tipo }}" {% if tipo.cod_tipo == registro[1] %} selected {% endif %}>{{ tipo.nom_tipo }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field is-horizontal">
+                        <div class="field-label">
+                            <label for="nuip" class="label">Nro. documento: <strong style="color: red;">*</strong></label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <p class="control">
+                                    <input type="text" name="nuip" id="nuip" class="input" value="{{ registro[2] }}" required>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field is-horizontal">
+                        <div class="field-label">
+                            <label for="nombre_completo" class="label">Nombre Completo: <strong style="color: red;">*</strong></label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <p class="control">
+                                    <input type="text" name="nombre_completo" id="nombre_completo" class="input" value="{{ registro[3] }}" required>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field is-horizontal">
+                        <div class="field-label">
+                            <label for="fecha_nacimiento" class="label">Fecha Nacimiento: <strong style="color: red;">*</strong></label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <p class="control">
+                                    <input type="date" name="fecha_nacimiento" id="fecha_nacimiento" class="input" value="{{ registro[4] }}" required>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field is-horizontal">
+                        <div class="field-label">
+                            <label for="direccion" class="label">Dirección: <strong style="color: red;">*</strong></label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <p class="control">
+                                    <input type="text" name="direccion" id="direccion" class="input" value="{{ registro[5] }}" required>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field is-horizontal">
+                        <div class="field-label">
+                            <label for="telefono" class="label">Teléfonos: <strong style="color: red;">*</strong></label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <p class="control">
+                                    <input type="text" name="telefono" id="telefono" class="input" value="{{ registro[6] }}" required>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field is-horizontal">
+                        <div class="field-label">
+                            <label for="email" class="label">Correo electronico: <strong style="color: red;">*</strong></label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <p class="control">
+                                    <input type="email" name="email" id="email" class="input" value="{{ registro[7] }}" required>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field is-horizontal">
+                        <div class="field-label">
+                            <label for="depto" class="label">Departamento: <strong style="color: red;">*</strong></label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field is-grouped">
+                                <p class="control">
+                                    <span class="select">
+                                        <select name="depto" id="depto" required>
+                                            {% for depto in deptos %}
+                                            <option value="{{ depto.cod_depto }}" {% if depto.cod_depto == registro[8] %} selected {% endif %}>{{ depto.nom_depto }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </span>
+                                </p>
+                                <p class="control is-expanded" hidden>
+                                    <input type="text" name="nom_depto" id="nom_depto" class="input" value="{{ registro[9] }}" readonly>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field is-horizontal">
+                        <div class="field-label">
+                            <label for="municipio" class="label is-small">Municipio: <strong style="color: red;">*</strong></label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field is-grouped">
+                                <p class="control">
+                                    <span class="select">
+                                        <select name="municipio" id="municipio" required>
+                                            <option value="{{ registro[10] }}">{{ registro[11] }}</option>
+                                        </select>
+                                    </span>
+                                </p>
+                                <p class="control is-expanded" hidden>
+                                    <input type="text" name="nom_municipio" id="nom_municipio" class="input" value="{{ registro[11] }}" readonly>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field is-horizontal">
+                        <div class="field-label">
+                            <label for="sexo" class="label">Sexo: <strong style="color: red;">*</strong></label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <p class="control">
+                                    <span class="select">
+                                        <select name="sexo" id="sexo" required>
+                                            <option value="H" {% if registro[12] == "H" %} selected {% endif %}>Hombre</option>
+                                            <option value="M" {% if registro[12] == "M" %} selected {% endif %}>Mujer</option>
+                                            <option value="I" {% if registro[12] == "I" %} selected {% endif %}>Inderterminado o Intersexual</option>
+                                        </select>
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field is-horizontal">
+                        <div class="field-label">
+                            <label for="etnia" class="label">Etnia o Grupo: <strong style="color: red;">*</strong></label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <span class="select">
+                                    <select name="etnia" id="etnia" required>
+                                        <option value=""></option>
+                                        {% for etnia in etnias %}
+                                        <option value="{{ etnia.cod_etnia }}" {% if etnia.cod_etnia == registro[13] %} selected {% endif %}>{{ etnia.nom_etnia }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="field is-grouped is-grouped-centered">
+            <p class="control">
+                <button type="submit" class="button is-success">
+                    <span class="icon is-small"><i aria-hidden="true"><img src="{{ url_for('static', filename='img/icons/actualizar.png') }}" alt="icon-guardar"></i></span>
+                    <span>Actualizar</span>
+                </button>
+            </p>
+            <p class="control">
+                <a id="btn_cancelar" class="button is-danger">
+                    <span class="icon is-small"><i aria-hidden="true"><img src="{{ url_for('static', filename='img/icons/cancelar.png') }}" alt="icon-cancelar"></i></span>
+                    <span>Cancelar</span>
+                </a>
+            </p>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+{% block foot_scripts %}
+<script src="{{ url_for('static', filename='js/registros/editar_registro.js') }}"></script>
+{% endblock %}

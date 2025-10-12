@@ -43,7 +43,7 @@
                             <td style="width: 30%;">{{ registro.nombre }}</td>
                             <td style="width: 30%;">{{ registro.usuario }}</td>
                             <td style="width: 20%;">
-                                <a href="#" class="button is-small is-info has-tooltip-bottom" data-tooltip="Editar" style="padding: 0em 1.0em;">
+                                <a href="{{ url_for('registros.editar_registro', id = registro.ID ) }}" class="button is-small is-info has-tooltip-bottom" data-tooltip="Editar" style="padding: 0em 1.0em;">
                                     <span class="icon is-small"><i aria-hidden="true"><img src="{{ url_for('static', filename='img/icons/editar.png') }}" alt="icon-editar"></i></span>
                                 </a>
                             </td>

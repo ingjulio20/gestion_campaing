@@ -56,4 +56,36 @@ def editar_registro(id):
     tipos = documentos_service.list_tipoDocumentos()
     deptos = deptos_service.list_departamentos()
     etnias = etnias_service.list_etnias()
-    return render_template('tmp/editar_registro.html', registro = registro, tipos = tipos, deptos = deptos, etnias = etnias)
+    return render_template('tmp_registros/editar_registro.html', registro = registro, tipos = tipos, deptos = deptos, etnias = etnias)
+
+@bp_registros.post('/update_registro')
+def update_registro():
+    try:
+        tipo_documento = request.form["tipo_documento"]
+        nuip = request.form["nuip"]
+        nombre_completo = request.form["nombre_completo"]
+        fecha_nacimiento = request.form["fecha_nacimiento"]
+        direccion = request.form["direccion"]
+        telefono = request.form["telefono"]
+        email = request.form["email"]
+        depto = request.form["depto"]
+        nom_depto = request.form["nom_depto"]
+        municipio = request.form["municipio"]
+        nom_municipio = request.form["nom_municipio"]
+        sexo = request.form["sexo"]
+        etnia = request.form["etnia"]
+        id_registro = request.form["id_registro"]
+
+        registros_service.update_registro(tipo_documento, nuip, nombre_completo, fecha_nacimiento, direccion, telefono,
+                                          email, depto, nom_depto, municipio, nom_municipio, sexo, etnia, id_registro)
+        
+        flash("Datos de Registro Actualizados Exitosamente", "success")
+        return redirect(url_for('registros.registros'))
+
+    except error.Error as e:
+        flash(f"Se presentó un error inesperado: {e.msg}", "error")
+        return redirect(url_for('registros.registros'))
+
+    except Exception as ex:
+        flash(f"Se presentó un error inesperado: {ex}", "error")
+        return redirect(url_for('registros.registros')) 
