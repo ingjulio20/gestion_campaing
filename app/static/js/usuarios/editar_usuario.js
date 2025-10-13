@@ -6,6 +6,11 @@ const password = document.getElementById("password");
 const perfil = document.getElementById("perfil");
 const btn_cancelar = document.getElementById("btn_cancelar");
 
+/* UpperCase */
+nombre_completo.addEventListener("keyup", () => {
+    nombre_completo.value = nombre_completo.value.toUpperCase();
+});
+
 /* Cancelar */
 btn_cancelar.addEventListener("click", (e) => {
     e.preventDefault();

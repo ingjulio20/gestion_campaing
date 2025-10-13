@@ -49,4 +49,3 @@ const getRegistrosDepto = () => {
     })
     .catch(error => console.error("error: ", error))
 }
-

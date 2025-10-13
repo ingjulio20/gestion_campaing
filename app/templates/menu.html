@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" class="">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -34,10 +34,10 @@
         </div>
         <div class="navbar-menu">
             <div class="navbar-start">
-                <a href="{{ url_for('usuarios.usuarios') }}" class="navbar-item">
+                <a id="usuariosLink" href="{{ url_for('usuarios.usuarios') }}" class="navbar-item">
                     <span>Usuarios</span>
                 </a>
-                <a href="{{ url_for('registros.registros') }}" class="navbar-item">
+                <a id="registrosLink" href="{{ url_for('registros.registros') }}" class="navbar-item">
                     <span>Registro de Votantes</span>
                 </a>
             </div>
@@ -46,7 +46,9 @@
             <div class="navbar-item has-dropdown is-hoverable">
                 <a class="navbar-link">
                     <span>{{ session['name'] }}</span>
-                    <span name="profile" id="profile" hidden>{{ session['profile'] }}</span>
+                    <span hidden>
+                        <input type="text" name="profile" id="profile" class="input" value="{{ session['profile'] }}" readonly hidden>
+                    </span>
                 </a>
                 <div class="navbar-dropdown">
                      <a href="{{ url_for('index.logout')}}" class="navbar-item">

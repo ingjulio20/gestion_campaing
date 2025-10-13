@@ -13,6 +13,15 @@ const nom_municipio = document.getElementById("nom_municipio");
 const sexo = document.getElementById("sexo");
 const etnia = document.getElementById("etnia");
 
+/* Upper Case */
+nombre_completo.addEventListener("keyup", () => {
+    nombre_completo.value = nombre_completo.value.toUpperCase();
+});
+
+direccion.addEventListener("keyup", () => {
+    direccion.value = direccion.value.toUpperCase();
+});
+
 /* Obtener Nombre Departamento */
 depto.addEventListener("change", () => {
     get_Municipios();
