@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 13-10-2025 a las 18:34:22
+-- Tiempo de generación: 17-10-2025 a las 04:49:30
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.0.28
 
@@ -64,7 +64,7 @@ INSERT INTO `departamentos` (`cod_depto`, `nom_depto`) VALUES
 ('81', 'ARAUCA'),
 ('85', 'CASANARE'),
 ('86', 'PUTUMAYO'),
-('88', 'ARCHIPIÉLAGO DE SAN ANDRÉS, PROVIDENCIA Y SANTA CA'),
+('88', 'SAN ANDRÉS, PROVIDENCIA Y SANTA CA'),
 ('91', 'AMAZONAS'),
 ('94', 'GUAINÍA'),
 ('95', 'GUAVIARE'),
@@ -1399,7 +1399,7 @@ ALTER TABLE `perfiles_usuarios`
 -- AUTO_INCREMENT de la tabla `registros`
 --
 ALTER TABLE `registros`
-  MODIFY `id_registro` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_registro` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Restricciones para tablas volcadas
