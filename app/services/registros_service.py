@@ -2,16 +2,19 @@ from app.database import db
 
 #Nuevo Registro
 def insert_registro(tipo_documento, nuip, nombre_completo, fecha_nacimiento, direccion, telefono, email,
-                    depto, nom_depto, municipio, nom_municipio, sexo, etnia, usuario_registro):
+                    depto, nom_depto, municipio, nom_municipio, sexo, etnia, puesto_votacion, direccion_puesto, 
+                    mesa_votacion, usuario_registro):
     
     conn = db.connection()
     operation = """ INSERT INTO registros (tipo_documento, nuip, nombre_completo, fecha_nacimiento, direccion, telefono, email,
-                    depto, nom_depto, municipio, nom_municipio, sexo, etnia, usuario_registro) 
+                    depto, nom_depto, municipio, nom_municipio, sexo, etnia, puesto_votacion, direccion_puesto, 
+                    mesa_votacion, usuario_registro) 
                     VALUES 
-                    (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
+                    (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
     
     params = (tipo_documento, nuip, nombre_completo, fecha_nacimiento, direccion, telefono, email,
-              depto, nom_depto, municipio, nom_municipio, sexo, etnia, usuario_registro)
+              depto, nom_depto, municipio, nom_municipio, sexo, etnia, puesto_votacion, direccion_puesto, 
+              mesa_votacion, usuario_registro)
     
     with conn.cursor() as cursor:
         cursor.execute(operation, params)
@@ -20,15 +23,17 @@ def insert_registro(tipo_documento, nuip, nombre_completo, fecha_nacimiento, dir
 
 #Actualizar datos de Registro
 def update_registro(tipo_documento, nuip, nombre_completo, fecha_nacimiento, direccion, telefono, email,
-                    depto, nom_depto, municipio, nom_municipio, sexo, etnia, id_registro):
+                    depto, nom_depto, municipio, nom_municipio, sexo, etnia, puesto_votacion, direccion_puesto,
+                    mesa_votacion, id_registro):
     
     conn = db.connection()
     operation = """ UPDATE registros SET tipo_documento = %s, nuip = %s, nombre_completo = %s, fecha_nacimiento = %s, direccion = %s, telefono = %s, email = %s,
-                    depto = %s, nom_depto = %s, municipio = %s, nom_municipio = %s, sexo = %s, etnia = %s
-                    WHERE id_registro = %s"""
+                    depto = %s, nom_depto = %s, municipio = %s, nom_municipio = %s, sexo = %s, etnia = %s, puesto_votacion = %s, direccion_puesto = %s,
+                    mesa_votacion = %s WHERE id_registro = %s"""
     
     params = (tipo_documento, nuip, nombre_completo, fecha_nacimiento, direccion, telefono, email,
-              depto, nom_depto, municipio, nom_municipio, sexo, etnia, id_registro)
+              depto, nom_depto, municipio, nom_municipio, sexo, etnia, puesto_votacion, direccion_puesto, 
+              mesa_votacion, id_registro)
     
     with conn.cursor() as cursor: 
         cursor.execute(operation, params)

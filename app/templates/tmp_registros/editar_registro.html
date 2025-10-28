@@ -47,9 +47,24 @@
                             <label for="nuip" class="label">Nro. documento: <strong style="color: red;">*</strong></label>
                         </div>
                         <div class="field-body">
-                            <div class="field">
-                                <p class="control">
+                            <div class="field is-grouped">
+                                <p class="control is-expanded">
                                     <input type="text" name="nuip" id="nuip" class="input" value="{{ registro[2] }}" required>
+                                </p>
+                                <p class="control">
+                                    <a id="copiar_nuip" class="button is-normal has-tooltip-bottom" data-tooltip="Copiar">
+                                        <span class="icon is-small"><i aria-hidden="true"><img src="{{ url_for('static', filename='img/icons/copiar.png') }}" alt="icon-copiar"></i></span>
+                                    </a>
+                                </p>
+                                <p class="control">
+                                    <a id="popup_adres" class="button is-normal is-info has-tooltip-bottom" data-tooltip="Consultar BDUA Personas">
+                                        <span class="icon is-small"><i aria-hidden="true"><img src="{{ url_for('static', filename='img/icons/adres_logo.png') }}" alt="adres"></i></span>
+                                    </a>
+                                </p>
+                                <p class="control">
+                                    <a id="popup_registraduria" class="button is-normal is-info has-tooltip-bottom" data-tooltip="Consultar Puesto Votación">
+                                        <span class="icon is-small"><i aria-hidden="true"><img src="{{ url_for('static', filename='img/icons/reg_logo.png') }}" alt="regis"></i></span>
+                                    </a>
                                 </p>
                             </div>
                         </div>
@@ -186,6 +201,42 @@
                                         {% endfor %}
                                     </select>
                                 </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field is-horizontal">
+                        <div class="field-label">
+                            <label for="puesto_votacion" class="label">Puesto de Votación: <strong style="color: red;">*</strong></label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <p class="control">
+                                    <input type="text" name="puesto_votacion" id="puesto_votacion" class="input" value="{{ registro[14] }}" required>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field is-horizontal">
+                        <div class="field-label">
+                            <label for="direccion_puesto" class="label">Dirección Puesto: <strong style="color: red;">*</strong></label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <p class="control">
+                                    <input type="text" name="direccion_puesto" id="direccion_puesto" class="input" value="{{ registro[15] }}" required>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field is-horizontal">
+                        <div class="field-label">
+                            <label for="mesa_votacion" class="label">Mesa de Votación: <strong style="color: red;">*</strong></label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <p class="control">
+                                    <input type="text" name="mesa_votacion" id="mesa_votacion" class="input" value="{{ registro[16] }}" required>
+                                </p>
                             </div>
                         </div>
                     </div>

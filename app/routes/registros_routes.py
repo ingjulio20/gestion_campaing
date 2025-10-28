@@ -34,10 +34,14 @@ def add_registro():
         nom_municipio = request.form["nom_municipio"]
         sexo = request.form["sexo"]
         etnia = request.form["etnia"]
+        puesto_votacion = request.form["puesto_votacion"]
+        direccion_puesto = request.form["direccion_puesto"]
+        mesa_votacion = request.form["mesa_votacion"]
         usuario_registro = request.form["usuario_registro"]
 
         registros_service.insert_registro(tipo_documento, nuip, nombre_completo, fecha_nacimiento, direccion, telefono,
-                                          email, depto, nom_depto, municipio, nom_municipio, sexo, etnia, usuario_registro)
+                                          email, depto, nom_depto, municipio, nom_municipio, sexo, etnia, puesto_votacion,
+                                          direccion_puesto, mesa_votacion, usuario_registro)
         
         flash("Registro Guardado Exitosamente!", "success")
         return redirect(url_for('registros.registros'))
@@ -74,10 +78,14 @@ def update_registro():
         nom_municipio = request.form["nom_municipio"]
         sexo = request.form["sexo"]
         etnia = request.form["etnia"]
+        puesto_votacion = request.form["puesto_votacion"]
+        direccion_puesto = request.form["direccion_puesto"]
+        mesa_votacion = request.form["mesa_votacion"]
         id_registro = request.form["id_registro"]
 
         registros_service.update_registro(tipo_documento, nuip, nombre_completo, fecha_nacimiento, direccion, telefono,
-                                          email, depto, nom_depto, municipio, nom_municipio, sexo, etnia, id_registro)
+                                          email, depto, nom_depto, municipio, nom_municipio, sexo, etnia, 
+                                          puesto_votacion, direccion_puesto, mesa_votacion, id_registro)
         
         flash("Datos de Registro Actualizados Exitosamente", "success")
         return redirect(url_for('registros.registros'))
