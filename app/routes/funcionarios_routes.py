@@ -79,7 +79,7 @@ def getFuncionarios():
     try:
         data = request.get_json()
         nombre = data.get("nombre")
-        funcionarios = funcionarios_services.list_funcionarios(nombre)
+        funcionarios = funcionarios_services.list_funcionarios_nombre(nombre)
         if funcionarios:
             return jsonify(funcionarios)
         else:

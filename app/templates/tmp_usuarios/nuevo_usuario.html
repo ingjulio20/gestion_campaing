@@ -65,7 +65,7 @@
                         <div class="field-body">
                             <div class="field">
                                 <div class="field-body">
-                                    <div class="field has-addons">
+                                    <div class="field is-grouped">
                                         <p class="control">
                                             <span class="select is-normal">
                                                 <select name="perfil" id="perfil" required>
@@ -75,6 +75,11 @@
                                                     {% endfor %}
                                                 </select>
                                             </span>
+                                        </p>
+                                        <p class="control">
+                                            <a id="btn_buscarFuncionario" class="button is-normal is-info has-tooltip-bottom js-modal-trigger" data-tooltip="Asociar Funcionario" data-target="modal-busquedaFuncionarios">
+                                                <span class="icon is-small"><i aria-hidden="true"><img src="{{ url_for('static', filename='img/icons/usuario.png')}}" alt="icon-usuario"></i></span>
+                                            </a>
                                         </p>
                                     </div>
                                 </div>
@@ -100,6 +105,39 @@
             </p>
         </div>
     </form>
+</div>
+
+<!-- Modal Busqueda de Funcionarios -->
+<div id="modal-busquedaFuncionarios" class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-content">
+        <div class="modal-card">
+            <header class="modal-card-head">
+                <p class="modal-card-title">Asociar Funcionario</p>
+                <button class="delete is-normal" aria-label="close"></button>
+            </header>
+            <section class="modal-card-body">
+                <table id="tablaBusquedaFuncionarios" class="table is-striped is-hoverable" style="width: 100%; cursor: pointer;">
+                    <thead>
+                        <tr>
+                            <th scope="col" style="font-size: small; width: 20%;">NUIP</th>
+                            <th scope="col" style="font-size: small; width: 60%;">Nombre Completo</th>
+                            <th scope="col" style="font-size: small; width: 20%;">Rol</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for funcionario in funcionarios %}
+                        <tr>
+                            <td style="font-size: small; width: 20%;">{{ funcionario.nuip }}</td>
+                            <td style="font-size: small; width: 80%;">{{ funcionario.nombre }}</td>
+                            <td style="font-size: small; width: 20%;">{{ funcionario.rol }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </section>
+        </div>
+    </div>
 </div>
 {% endblock %}
 

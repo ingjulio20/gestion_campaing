@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_bcrypt import Bcrypt
 import mysql.connector.errors as error
-from app.services import usuarios_service
+from app.services import usuarios_service, funcionarios_services
 
 #Blueprint
 bp_usuarios = Blueprint('usuarios', __name__)
@@ -15,8 +15,9 @@ def usuarios():
 
 @bp_usuarios.get('/nuevo_usuario')
 def nuevo_usuario():
+    funcionarios = funcionarios_services.list_funcionarios()
     perfil = usuarios_service.listar_perfiles_usuario()
-    return render_template('tmp_usuarios/nuevo_usuario.html', perfil = perfil)
+    return render_template('tmp_usuarios/nuevo_usuario.html', perfil = perfil, funcionarios = funcionarios)
 
 @bp_usuarios.post('/add_usuario')
 def add_usuario():

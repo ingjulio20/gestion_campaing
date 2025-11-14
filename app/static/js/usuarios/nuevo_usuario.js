@@ -11,6 +11,44 @@ nombre_completo.addEventListener("keyup", () => {
     nombre_completo.value = nombre_completo.value.toUpperCase();
 });
 
+/* DataTable */
+const tablaBusquedaFuncionarios = document.getElementById("tablaBusquedaFuncionarios");
+let tableBusquedaFuncionarios = new DataTable('#tablaBusquedaFuncionarios', {
+  language: {
+    lengthMenu: "Mostrar _MENU_ registros por pagina",
+    zeroRecords: "Sin registros encontrados",
+    info: "Mostrando pagina _PAGE_ de _PAGES_",
+    infoEmpty: "No hay registros disponibles",
+    infoFiltered: "(filtrado de _MAX_ registros)",
+    search: "Filtrar:",
+    paginate: {
+      first: "Primera",
+      last: "Última",
+      next: "Siguiente",
+      previous: "Anterior"
+    }
+  }
+});
+
+tablaBusquedaFuncionarios.addEventListener("click", (e) => {
+    e.preventDefault();
+    let data = e.target.parentElement.children;
+    doc_usuario.value = data[0].innerText;
+    nombre_completo.value = data[1].innerText;
+    closeAllModals();
+});
+
+/* Cerrar Modal */
+function closeModal($el) {
+    $el.classList.remove('is-active');
+}
+
+function closeAllModals() {
+    (document.querySelectorAll('.modal') || []).forEach(($modal) => {
+        closeModal($modal);
+    });
+}
+
 /* Cancelar */
 btn_cancelar.addEventListener("click", (e) => {
     e.preventDefault();

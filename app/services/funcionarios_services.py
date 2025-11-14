@@ -75,8 +75,24 @@ def list_funcionarios_enlace():
     conn.close()
     return funcionarios
 
+#Listar Funcionarios
+def list_funcionarios():
+    funcionarios = []
+    conn = db.connection()
+    query = """ SELECT f.nuip_funcionario, f.nom_funcionario, rf.nom_rol FROM 
+                funcionarios f
+                LEFT JOIN roles_funcionarios rf ON f.rol_funcionario = rf.cod_rol """
+    with conn.cursor() as cursor:
+        cursor.execute(query)
+        result = cursor.fetchall()
+        for row in result:
+            funcionarios.append({'nuip': row[0], 'nombre': row[1], 'rol': row[2]})
+
+    conn.close()
+    return funcionarios        
+
 #Listar Funcionarios por Nombre
-def list_funcionarios(nombre):
+def list_funcionarios_nombre(nombre):
     funcionarios = []
     conn = db.connection()
     nombre = f"{nombre}%"
