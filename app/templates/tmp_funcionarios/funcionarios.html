@@ -1,0 +1,90 @@
+{% extends 'menu.html' %}
+
+{% block css %}
+{% endblock %}
+<style>
+    .inter-scrollable-section{
+        height: 370px;
+        overflow-y: scroll;
+        padding: 0rem 0rem;
+    }
+</style>
+{% block header_scripts %}
+{% endblock %}
+
+{% block title %}Funcionarios{% endblock %}
+
+{% block content %}
+<h4 class="title is-4">Funcionarios</h4>
+<div class="container">
+    <div class="field is-grouped">
+        <p class="control">
+            <a href="{{ url_for('funcionarios.nuevo_funcionario') }}" class="button is-normal is-info">
+                <span class="icon is-small"><i aria-hidden="true"><img src="{{ url_for('static', filename='img/icons/añadir.png') }}" alt="icon-añadir"></i></span>
+                <span>Nuevo Funcionario</span>
+            </a>
+        </p>
+    </div>
+    <div class="card">
+        <header class="card-header">
+            <p class="card-header-title">Registro de Funcionarios</p>
+        </header>
+        <div class="card-content">
+            <div class="content">
+                <div class="field is-horizontal">
+                    <div class="field-label" style="font-size: small;">
+                        <label for="buscar_funcionario" class="label is-small">Busqueda por nombre:</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field is-grouped">
+                            <p class="control">
+                                <input type="text" name="buscar_funcionario" id="buscar_funcionario" class="input is-small">
+                            </p>
+                            <p class="control">
+                                <a id="btn_buscar" class="button is-small is-info has-tooltip-bottom" data-tooltip="Realizar Busqueda">
+                                    <span class="icon is-small"><i aria-hidden="true"><img src="{{ url_for('static', filename='img/icons/buscar.png') }}" alt="icon-buscar"></i></span>
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <section class="inter-scrollable-section">
+                    <table id="tablaFuncionarios" class="table is-striped" style="width: 100%;">
+                        <thead>
+                            <tr>
+                                <th scope="col" style="font-size: small; width: 5%;">ID</th>
+                                <th scope="col" style="font-size: small; width: 10%;">Documento</th>
+                                <th scope="col" style="font-size: small; width: 20%;">Nombre</th>
+                                <th scope="col" style="font-size: small; width: 10%;">Rol</th>
+                                <th scope="col" style="font-size: small; width: 20%;">Admin Asociado</th>
+                                <th scope="col" style="font-size: small; width: 20%;">Enlace Asociado</th>
+                                <th scope="col" style="font-size: small; width: 10%;">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </section>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block foot_scripts %}
+{% with messages = get_flashed_messages(with_categories=True) %}
+    {% if messages %}
+        {% for category, message in messages %}
+        <script>
+            Swal.fire({
+                title: "Notificación!",
+                text: "{{ message }}",
+                icon: "{{ category }}"
+            });
+        </script>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+<script src="{{ url_for('static', filename='js/funcionarios/funcionarios.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,152 @@
+{% extends 'menu.html' %}
+
+{% block css %}
+{% endblock %}
+<style>
+    .inter-scrollable-section {
+        height: 80vh;
+        overflow-y: scroll;
+        padding: 0rem 0rem;
+    }
+</style>
+{% block header_scripts %}
+{% endblock %}
+
+{% block title %}Editar Funcionario{% endblock %}
+
+{% block content %}
+<h4 class="title is-4">Editar Funcionario</h4>
+<div class="container">
+    <form id="formUpdateFuncionario" action="{{ url_for('funcionarios.update_funcionario') }}" method="post">
+        <section class="inter-scrollable-section">
+            <div class="card">
+                <header class="card-header">
+                    <p class="card-header-title">Ingrese la información</p>
+                </header>
+                <div class="card-content">
+                    <div class="content">
+                        <input type="text" name="id_funcionario" id="id_funcionario" value="{{ funcionario[0] }}" hidden>
+                        <div class="field is-horizontal">
+                            <div class="field-label" style="font-size: small;">
+                                <label for="nuip_funcionario" class="label is-small">Nro. Documento: <strong style="color: red;">*</strong></label>
+                            </div>
+                            <div class="field-body">
+                                <div class="field">
+                                    <p class="control">
+                                        <input type="text" name="nuip_funcionario" id="nuip_funcionario" class="input is-small" value="{{ funcionario[1] }}" required>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field is-horizontal">
+                            <div class="field-label" style="font-size: small;">
+                                <label for="nom_funcionario" class="label is-small">Nombre Completo: <strong style="color: red;">*</strong></label>
+                            </div>
+                            <div class="field-body">
+                                <div class="field">
+                                    <p class="control">
+                                        <input type="text" name="nom_funcionario" id="nom_funcionario" class="input is-small" value="{{ funcionario[2] }}" required>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field is-horizontal">
+                            <div class="field-label" style="font-size: small;">
+                                <label for="dir_funcionario" class="label is-small">Dirección: <strong style="color: red;">*</strong></label>
+                            </div>
+                            <div class="field-body">
+                                <div class="field">
+                                    <p class="control">
+                                        <input type="text" name="dir_funcionario" id="dir_funcionario" class="input is-small" value="{{ funcionario[3] }}" required>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field is-horizontal">
+                            <div class="field-label" style="font-size: small;">
+                                <label for="tel_funcionario" class="label is-small">Teléfonos: <strong style="color: red;">*</strong></label>
+                            </div>
+                            <div class="field-body">
+                                <div class="field">
+                                    <p class="control">
+                                        <input type="text" name="tel_funcionario" id="tel_funcionario" class="input is-small" value="{{ funcionario[4] }}" required>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field is-horizontal">
+                            <div class="field-label" style="font-size: small;">
+                                <label for="rol_funcionario" class="label is-small">Rol Designado: <strong style="color: red;">*</strong></label>
+                            </div>
+                            <div class="field-body">
+                                <div class="field">
+                                    <p class="control">
+                                        <span class="select is-small">
+                                            <select name="rol_funcionario" id="rol_funcionario" required>
+                                                {% for rol in roles %}
+                                                <option value="{{ rol.cod_rol }}" {% if rol.cod_rol == funcionario[5] %} selected {% endif %}>{{ rol.nom_rol }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="panelAdminAsociado" class="field is-horizontal is-hidden">
+                            <div class="field-label" style="font-size: small;">
+                                <label for="admin_asociado" class="label is-small">Administrador: <strong style="color: red;">*</strong></label>
+                            </div>
+                            <div class="field-body">
+                                <div class="field">
+                                    <p class="control">
+                                        <span class="select is-small">
+                                            <select name="admin_asociado" id="admin_asociado">
+                                                <option value=""></option>
+                                            </select>
+                                        </span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="panelEnlaceAsociado" class="field is-horizontal is-hidden">
+                            <div class="field-label" style="font-size: small;">
+                                <label for="enlace_asociado" class="label is-small">Enlace: <strong style="color: red;">*</strong></label>
+                            </div>
+                            <div class="field-body">
+                                <div class="field">
+                                    <p class="control">
+                                        <span class="select is-small">
+                                            <select name="enlace_asociado" id="enlace_asociado">
+                                                <option value=""></option>
+                                            </select>
+                                        </span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <br>
+        <div class="field is-grouped is-grouped-centered">
+            <p class="control">
+                <button type="submit" class="button is-normal is-success">
+                    <span class="icon is-small"><i aria-hidden="true"><img src="{{ url_for('static', filename='img/icons/actualizar.png') }}" alt="icon-guardar"></i></span>
+                    <span>Actualizar</span>
+                </button>
+            </p>
+            <p class="control">
+                <a id="btn_cancelar" class="button is-normal is-danger">
+                    <span class="icon is-small"><i aria-hidden="true"><img src="{{ url_for('static', filename='img/icons/cancelar.png') }}" alt="icon-cancelar"></i></span>
+                    <span>Cancelar</span>
+                </a>
+            </p>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+{% block foot_scripts %}
+<script src="{{ url_for('static', filename='js/funcionarios/editar_funcionario.js' )}}"></script>
+{% endblock %}

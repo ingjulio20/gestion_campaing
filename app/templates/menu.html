@@ -23,7 +23,7 @@
         padding-top: 3.25rem; /* Altura típica del navbar en Bulma */
         }
     </style>
-    <title>{% block title %}{% endblock %}- Gestión Campaña</title>
+    <title>{% block title %}{% endblock %} - Gestión Campaña</title>
 </head>
 <body>
     <nav class="navbar is-fixed-top has-shadow" role="navigation" aria-label="main navigation">
@@ -34,9 +34,41 @@
         </div>
         <div class="navbar-menu">
             <div class="navbar-start">
-                <a id="usuariosLink" href="{{ url_for('usuarios.usuarios') }}" class="navbar-item">
-                    <span>Usuarios</span>
-                </a>
+                 <!-- Menú Parametrización -->
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link">
+                        <span>Parametrización</span>
+                    </a>
+                    <div class="navbar-dropdown">
+                        <a id="funcionariosLink" href="{{ url_for('funcionarios.funcionarios') }}" class="navbar-item">
+                            <span>Funcionarios</span>
+                        </a>
+                        <a id="nichosLink" href="{{ url_for('nichos.nichos') }}" class="navbar-item">
+                            <span>Nichos</span>
+                        </a>
+                        <a id="campanaLink" href="{{ url_for('campañas.campañas') }}" class="navbar-item">
+                            <span>Campañas</span>
+                        </a>
+                        <a id="usuariosLink" href="{{ url_for('usuarios.usuarios') }}" class="navbar-item">
+                            <span>Usuarios del Sistema</span>
+                        </a>
+                    </div>
+                </div>
+                <!-- Reportes y Analatica -->
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link">
+                        <span>Reportes y Analitica</span>
+                    </a>
+                    <div class="navbar-dropdown">
+                        <a id="reportesLink" href="#" class="navbar-item">
+                            <span>Reportes</span>
+                        </a>
+                        <a id="dashboardLink" href="#" class="navbar-item">
+                            <span>Dashboard Analisís</span>
+                        </a>
+                    </div>
+                </div>
+                <!-- Registros -->
                 <a id="registrosLink" href="{{ url_for('registros.registros') }}" class="navbar-item">
                     <span>Registro de Votantes</span>
                 </a>

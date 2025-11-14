@@ -1,0 +1,56 @@
+{% extends 'menu.html' %}
+
+{% block css %}
+{% endblock %}
+
+{% block header_scripts %}
+{% endblock %}
+{% block title %}Nuevo Nicho{% endblock %}
+
+{% block content %}
+<h4 class="title is-4">Nuevo Nicho</h4>
+<div class="container">
+    <form id="formAddNicho" action="{{ url_for('nichos.add_nicho') }}" method="post">
+        <div class="card">
+            <header class="card-header">
+                <p class="card-header-title">Ingrese la información</p>
+            </header>
+            <div class="card-content">
+                <div class="content">
+                    <div class="field is-horizontal">
+                        <div class="field-label" style="font-size: small;">
+                            <label for="nom_nicho" class="label is-small">Nombre: <strong style="color: red;">*</strong></label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <p class="control">
+                                    <input type="text" name="nom_nicho" id="nom_nicho" class="input is-small" required>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="field is-grouped is-grouped-centered">
+            <p class="control">
+                <button type="submit" class="button is-normal is-success">
+                    <span class="icon is-small"><i aria-hidden="true"><img src="{{ url_for('static', filename='img/icons/guardar.png') }}" alt="icon-guardar"></i></span>
+                    <span>Guardar</span>
+                </button>
+            </p>
+            <p class="control">
+                <a id="btn_cancelar" class="button is-normal is-danger">
+                    <span class="icon is-small"><i aria-hidden="true"><img src="{{ url_for('static', filename='img/icons/cancelar.png') }}" alt="icon-cancelar"></i></span>
+                    <span>Cancelar</span>
+                </a>
+            </p>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+{% block foot_scripts %}
+<script src="{{ url_for('static', filename='js/nichos/nuevo_nicho.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,109 @@
+{% extends 'menu.html' %}
+
+{% block css %}
+{% endblock %}
+
+{% block header_scripts %}
+{% endblock %}
+{% block title %}Campañas Electorales{% endblock %}
+
+{% block content %}
+<h4 class="title is-4">Campañas Electorales</h4>
+<div class="container">
+    <div class="field is-grouped">
+        <p class="control">
+            <a href="{{ url_for('campañas.nueva_campaña') }}" class="button is-normal is-info">
+                <span class="icon is-small"><i aria-hidden="true"><img src="{{ url_for('static', filename='img/icons/añadir.png') }}" alt="icon-añadir"></i></span>
+                <span>Nueva Campaña</span>
+            </a>
+        </p>
+    </div>
+    <div class="card">
+        <header class="card-header">
+            <p class="card-header-title">Registro de Campañas</p>
+        </header>
+        <div class="card-content">
+            <div class="content">
+                <!-- Tabla Campañas -->
+                <table id="tablaCampañas" class="table is-striped" style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th scope="col" style="font-size: small; width: 20%;">ID</th>
+                            <th scope="col" style="font-size: small; width: 20%;">Campaña</th>
+                            <th scope="col" style="font-size: small; width: 20%;">Meta Votantes</th>
+                            <th scope="col" style="font-size: small; width: 20%;">Meta Votos</th>
+                            <th scope="col" style="font-size: small; width: 20%;">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for camp in camps %}
+                        <tr>
+                            <td class="valor_idcamp" style="font-size: small; width: 20%;">{{ camp.ID }}</td>
+                            <td style="font-size: small; width: 20%;">{{ camp.nombre }}</td>
+                            <td style="font-size: small; width: 20%;">{{ camp.votantes }}</td>
+                            <td style="font-size: small; width: 20%;">{{ camp.votos }}</td>
+                            <td style="width: 20%;">
+                                <a href="{{ url_for('campañas.editar_campaña', id = camp.ID) }}" class="button is-small is-info has-tooltip-bottom" data-tooltip="Editar" style="padding: 0em 1.0em;">
+                                    <span class="icon is-small"><i aria-hidden="true"><img src="{{ url_for('static', filename='img/icons/editar.png') }}" alt="icon-editar"></i></span>
+                                </a>
+                                <a class="enlace_eliminar button is-small is-danger has-tooltip-bottom" data-tooltip="Eliminar" style="padding: 0em 1.0em;">
+                                    <span class="icon is-small"><i aria-hidden="true"><img src="{{ url_for('static', filename='img/icons/basura.png') }}" alt="icon-basura"></i></span>
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block foot_scripts %}
+{% with messages = get_flashed_messages(with_categories=True) %}
+    {% if messages %}
+        {% for category, message in messages %}
+        <script>
+            Swal.fire({
+                title: "Notificación!",
+                text: "{{ message }}",
+                icon: "{{ category }}"
+            })
+        </script>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+<script src="{{ url_for('static', filename='js/campañas/campañas.js') }}"></script>
+<!-- Modo Eliminar -->
+<script>
+    const confirmacion = (id_camp) => {
+        Swal.fire({
+            title: "Estas Seguro(a)?",
+            text: "Esta acción no se puede revertir.",
+            icon: "question",
+            confirmButtonText: "Si, Eliminar!",
+            confirmButtonColor: "#48c78e",
+            cancelButtonText: "No, Cancelar",
+            cancelButtonColor: "#f14668",
+            showCancelButton: true,
+            allowOutsideClick: false
+        })
+        .then((result) => {
+            if(result.isConfirmed){
+                window.location.href = `/delete_campaña/${id_camp}`
+            }
+        });
+    };
+
+    $(document).ready(function(){
+        $('#tablaCampañas').off('click', '.enlace_eliminar').on('click', '.enlace_eliminar', function(event){
+            event.preventDefault();
+            const fila = $(this).closest('tr');
+            let id_camp = fila.find('.valor_idcamp').text();
+            confirmacion(id_camp)
+        });
+    });
+</script>
+{% endblock %}

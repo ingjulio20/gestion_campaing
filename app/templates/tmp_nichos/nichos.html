@@ -1,0 +1,105 @@
+{% extends 'menu.html' %}
+
+{% block css %}
+{% endblock %}
+
+{% block header_scripts %}
+{% endblock %}
+{% block title %}Nichos{% endblock %}
+
+{% block content %}
+<h4 class="title is-4">Nichos</h4>
+<div class="container">
+    <div class="field is-grouped">
+        <p class="control">
+            <a href="{{ url_for('nichos.nuevo_nicho') }}" class="button is-normal is-info">
+                <span class="icon is-small"><i aria-hidden="true"><img src="{{ url_for('static', filename='img/icons/añadir.png') }}" alt="icon-añadir"></i></span>
+                <span>Nuevo Nicho</span>
+            </a>
+        </p>
+    </div>
+    <div class="card">
+        <header class="card-header">
+            <p class="card-header-title">Registro de Nichos</p>
+        </header>
+        <div class="card-content">
+            <div class="content">
+                <!-- Tabla Nichos -->
+                <table id="tablaNichos" class="table is-striped" style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th scope="col" style="font-size: small;">ID</th>
+                            <th scope="col" style="font-size: small;">Nombre</th>
+                            <th scope="col" style="font-size: small;">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for nicho in nichos %}
+                        <tr>
+                            <td class="valor_codnicho" style="font-size: small;">{{ nicho.cod_nicho }}</td>
+                            <td style="font-size: small;">{{ nicho.nom_nicho }}</td>
+                            <td>
+                                <a href="{{ url_for('nichos.editar_nicho', id = nicho.cod_nicho) }}" class="button is-small is-info has-tooltip-bottom" data-tooltip="Editar" style="padding: 0em 1.0em;">
+                                    <span class="icon is-small"><i aria-hidden="true"><img src="{{ url_for('static', filename='img/icons/editar.png') }}" alt="icon-editar"></i></span>
+                                </a>
+                                <a class="enlace_eliminar button is-small is-danger has-tooltip-bottom" data-tooltip="Eliminar" style="padding: 0em 1.0em;">
+                                    <span class="icon is-small"><i aria-hidden="true"><img src="{{ url_for('static', filename='img/icons/basura.png') }}" alt="icon-basura"></i></span>
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block foot_scripts %}
+{% with messages = get_flashed_messages(with_categories=True) %}
+    {% if messages %}
+        {% for category, message in messages %}
+        <script>
+            Swal.fire({
+                title: "Notificación!",
+                text: "{{ message }}",
+                icon: "{{ category }}"
+            })
+        </script>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+<script src="{{ url_for('static', filename='js/nichos/nichos.js') }}"></script>
+<!-- Modo Eliminar -->
+<script>
+const confirmacion = (cod_nicho) => {
+    Swal.fire({
+        title: "Estas Seguro(a)?",
+        text: "Este proceso no se puede revertir.",
+        icon: "question",
+        confirmButtonText: "Si, Eliminar!",
+        confirmButtonColor: "#48c78e",
+        cancelButtonText: "No, Continuar",
+        cancelButtonColor: "#f14668",
+        showCancelButton: true,
+        allowOutsideClick: false
+    })
+    .then((result) => {
+        if(result.isConfirmed){
+            window.location.href = `/delete_nicho/${cod_nicho}`;
+        }
+    });
+};
+
+$(document).ready(function(){
+    $('#tablaNichos').off('click', '.enlace_eliminar').on('click', '.enlace_eliminar', function(event){
+        event.preventDefault();
+        const fila = $(this).closest('tr')
+        let cod_nicho = fila.find('.valor_codnicho').text();
+        confirmacion(cod_nicho);
+    })
+});
+</script>
+{% endblock %}

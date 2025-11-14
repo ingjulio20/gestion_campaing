@@ -6,6 +6,9 @@ from app.routes.index_routes import bp_index
 from app.routes.deptos_routes import bp_deptos
 from app.routes.usuarios_routes import bp_usuarios
 from app.routes.registros_routes import bp_registros
+from app.routes.funcionarios_routes import bp_funcionarios
+from app.routes.nichos_routes import bp_nichos
+from app.routes.campaña_routes import bp_campañas
 
 #Inicialización
 app = Flask(__name__)
@@ -19,6 +22,9 @@ app.register_blueprint(bp_index)
 app.register_blueprint(bp_deptos)
 app.register_blueprint(bp_usuarios)
 app.register_blueprint(bp_registros)
+app.register_blueprint(bp_funcionarios)
+app.register_blueprint(bp_nichos)
+app.register_blueprint(bp_campañas)
 
 #Ruta Metodo para verificar las URL y Redireccionar al Login
 @app.before_request
@@ -30,4 +36,4 @@ def verificar_peticion():
     
 #Instancia
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True, port=3000)
