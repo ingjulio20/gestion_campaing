@@ -1,6 +1,13 @@
 {% extends 'menu.html' %}
 
 {% block css %}
+<style>
+    .inter-scrollable-section {
+        height: 80vh;
+        overflow-y: scroll;
+        padding: 0rem 0rem;
+    }
+</style>
 {% endblock %}
 
 {% block header_scripts %}
@@ -12,236 +19,296 @@
 <h4 class="title is-4">Nuevo Registro</h4>
 <div class="container">
     <form id="formAddRegistro" action="{{ url_for('registros.add_registro') }}" method="post">
-        <div class="card">
-            <header class="card-header">
-                <p class="card-header-title">Ingrese la información</p>
-            </header>
-            <div class="card-content">
-                <div class="content">
-                    <p class="control" hidden>
-                        <input type="text" name="usuario_registro" id="usuario_registro" value="{{ session['name'] }}" class="input" readonly>
-                    </p>
-                    <div class="field is-horizontal">
-                        <div class="field-label">
-                            <label for="tipo_documento" class="label is-small">Tipo documento: <strong style="color: red;">*</strong></label>
+        <section class="inter-scrollable-section">
+            <!-- Datos Personales -->
+            <div class="card">
+                <header class="card-header">
+                    <p class="card-header-title">Datos Personales</p>
+                </header>
+                <div class="card-content">
+                    <div class="content">
+                        <p class="control" hidden>
+                            <input type="text" name="usuario_registro" id="usuario_registro" value="{{ session['name'] }}" class="input" readonly>
+                        </p>
+                        <div class="field is-horizontal">
+                            <div class="field-label" style="font-size: small;">
+                                <label for="tipo_documento" class="label is-small">Tipo documento: <strong style="color: red;">*</strong></label>
+                            </div>
+                            <div class="field-body">
+                                <div class="field">
+                                    <p class="control">
+                                        <span class="select is-small">
+                                            <select name="tipo_documento" id="tipo_documento" required>
+                                                <option value=""></option>
+                                                {% for tipo in tipos %}
+                                                <option value="{{ tipo.cod_tipo }}">{{ tipo.nom_tipo }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </span>
+                                    </p>
+                                </div>
+                            </div>
                         </div>
-                        <div class="field-body">
-                            <div class="field">
-                                <p class="control">
-                                    <span class="select">
-                                        <select name="tipo_documento" id="tipo_documento" required>
+                        <div class="field is-horizontal">
+                            <div class="field-label" style="font-size: small;">
+                                <label for="nuip" class="label is-small">Nro. documento: <strong style="color: red;">*</strong></label>
+                            </div>
+                            <div class="field-body">
+                                <div class="field is-grouped">
+                                    <p class="control is-expanded">
+                                        <input type="text" name="nuip" id="nuip" class="input is-small" required>
+                                    </p>
+                                    <p class="control">
+                                        <a id="copiar_nuip" class="button is-small has-tooltip-bottom" data-tooltip="Copiar">
+                                            <span class="icon is-small"><i aria-hidden="true"><img src="{{ url_for('static', filename='img/icons/copiar.png') }}" alt="icon-copiar"></i></span>
+                                        </a>
+                                    </p>
+                                    <p class="control">
+                                        <a id="popup_adres" class="button is-small is-info has-tooltip-bottom" data-tooltip="Consultar BDUA Personas">
+                                            <span class="icon is-small"><i aria-hidden="true"><img src="{{ url_for('static', filename='img/icons/adres_logo.png') }}" alt="adres"></i></span>
+                                        </a>
+                                    </p>
+                                    <p class="control">
+                                        <a id="popup_registraduria" class="button is-small is-info has-tooltip-bottom" data-tooltip="Consultar Puesto Votación">
+                                            <span class="icon is-small"><i aria-hidden="true"><img src="{{ url_for('static', filename='img/icons/reg_logo.png') }}" alt="regis"></i></span>
+                                        </a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field is-horizontal">
+                            <div class="field-label" style="font-size: small;">
+                                <label for="nombre_completo" class="label is-small">Nombre Completo: <strong style="color: red;">*</strong></label>
+                            </div>
+                            <div class="field-body">
+                                <div class="field">
+                                    <p class="control">
+                                        <input type="text" name="nombre_completo" id="nombre_completo" class="input is-small" required>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field is-horizontal">
+                            <div class="field-label" style="font-size: small;">
+                                <label for="fecha_nacimiento" class="label is-small">Fecha Nacimiento: <strong style="color: red;">*</strong></label>
+                            </div>
+                            <div class="field-body">
+                                <div class="field">
+                                    <p class="control">
+                                        <input type="date" name="fecha_nacimiento" id="fecha_nacimiento" class="input is-small" required>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field is-horizontal">
+                            <div class="field-label" style="font-size: small;">
+                                <label for="direccion" class="label is-small">Dirección: <strong style="color: red;">*</strong></label>
+                            </div>
+                            <div class="field-body">
+                                <div class="field">
+                                    <p class="control">
+                                        <input type="text" name="direccion" id="direccion" class="input is-small" required>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field is-horizontal">
+                            <div class="field-label" style="font-size: small;">
+                                <label for="telefono" class="label is-small">Teléfonos: <strong style="color: red;">*</strong></label>
+                            </div>
+                            <div class="field-body">
+                                <div class="field">
+                                    <p class="control">
+                                        <input type="text" name="telefono" id="telefono" class="input is-small" required>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field is-horizontal">
+                            <div class="field-label" style="font-size: small;">
+                                <label for="email" class="label is-small">Correo electronico: <strong style="color: red;">*</strong></label>
+                            </div>
+                            <div class="field-body">
+                                <div class="field">
+                                    <p class="control">
+                                        <input type="email" name="email" id="email" class="input is-small" required>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field is-horizontal">
+                            <div class="field-label" style="font-size: small;">
+                                <label for="depto" class="label is-small">Departamento: <strong style="color: red;">*</strong></label>
+                            </div>
+                            <div class="field-body">
+                                <div class="field is-grouped">
+                                    <p class="control">
+                                        <span class="select is-small">
+                                            <select name="depto" id="depto" required>
+                                                <option value=""></option>
+                                                {% for depto in deptos %}
+                                                <option value="{{ depto.cod_depto }}">{{ depto.nom_depto }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </span>
+                                    </p>
+                                    <p class="control is-expanded" hidden>
+                                        <input type="text" name="nom_depto" id="nom_depto" class="input is-small" readonly>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field is-horizontal">
+                            <div class="field-label" style="font-size: small;">
+                                <label for="municipio" class="label is-small">Municipio: <strong style="color: red;">*</strong></label>
+                            </div>
+                            <div class="field-body">
+                                <div class="field is-grouped">
+                                    <p class="control">
+                                        <span class="select is-small">
+                                            <select name="municipio" id="municipio" required></select>
+                                        </span>
+                                    </p>
+                                    <p class="control is-expanded" hidden>
+                                        <input type="text" name="nom_municipio" id="nom_municipio" class="input is-small" readonly>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field is-horizontal">
+                            <div class="field-label" style="font-size: small;">
+                                <label for="sexo" class="label is-small">Sexo: <strong style="color: red;">*</strong></label>
+                            </div>
+                            <div class="field-body">
+                                <div class="field">
+                                    <p class="control">
+                                        <span class="select is-small">
+                                            <select name="sexo" id="sexo" required>
+                                                <option value=""></option>
+                                                <option value="H">Hombre</option>
+                                                <option value="M">Mujer</option>
+                                                <option value="I">Inderterminado o Intersexual</option>
+                                            </select>
+                                        </span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field is-horizontal">
+                            <div class="field-label" style="font-size: small;">
+                                <label for="etnia" class="label is-small">Etnia o Grupo: <strong style="color: red;">*</strong></label>
+                            </div>
+                            <div class="field-body">
+                                <div class="field">
+                                    <span class="select is-small">
+                                        <select name="etnia" id="etnia" required>
                                             <option value=""></option>
-                                            {% for tipo in tipos %}
-                                            <option value="{{ tipo.cod_tipo }}">{{ tipo.nom_tipo }}</option>
+                                            {% for etnia in etnias %}
+                                            <option value="{{ etnia.cod_etnia }}">{{ etnia.nom_etnia }}</option>
                                             {% endfor %}
                                         </select>
                                     </span>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="field is-horizontal">
-                        <div class="field-label">
-                            <label for="nuip" class="label">Nro. documento: <strong style="color: red;">*</strong></label>
-                        </div>
-                        <div class="field-body">
-                            <div class="field is-grouped">
-                                <p class="control is-expanded">
-                                    <input type="text" name="nuip" id="nuip" class="input" required>
-                                </p>
-                                <p class="control">
-                                    <a id="copiar_nuip" class="button is-normal has-tooltip-bottom" data-tooltip="Copiar">
-                                        <span class="icon is-small"><i aria-hidden="true"><img src="{{ url_for('static', filename='img/icons/copiar.png') }}" alt="icon-copiar"></i></span>
-                                    </a>
-                                </p>
-                                <p class="control">
-                                    <a id="popup_adres" class="button is-normal is-info has-tooltip-bottom" data-tooltip="Consultar BDUA Personas">
-                                        <span class="icon is-small"><i aria-hidden="true"><img src="{{ url_for('static', filename='img/icons/adres_logo.png') }}" alt="adres"></i></span>
-                                    </a>
-                                </p>
-                                <p class="control">
-                                    <a id="popup_registraduria" class="button is-normal is-info has-tooltip-bottom" data-tooltip="Consultar Puesto Votación">
-                                        <span class="icon is-small"><i aria-hidden="true"><img src="{{ url_for('static', filename='img/icons/reg_logo.png') }}" alt="regis"></i></span>
-                                    </a>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="field is-horizontal">
-                        <div class="field-label">
-                            <label for="nombre_completo" class="label">Nombre Completo: <strong style="color: red;">*</strong></label>
-                        </div>
-                        <div class="field-body">
-                            <div class="field">
-                                <p class="control">
-                                    <input type="text" name="nombre_completo" id="nombre_completo" class="input" required>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="field is-horizontal">
-                        <div class="field-label">
-                            <label for="fecha_nacimiento" class="label">Fecha Nacimiento: <strong style="color: red;">*</strong></label>
-                        </div>
-                        <div class="field-body">
-                            <div class="field">
-                                <p class="control">
-                                    <input type="date" name="fecha_nacimiento" id="fecha_nacimiento" class="input" required>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="field is-horizontal">
-                        <div class="field-label">
-                            <label for="direccion" class="label">Dirección: <strong style="color: red;">*</strong></label>
-                        </div>
-                        <div class="field-body">
-                            <div class="field">
-                                <p class="control">
-                                    <input type="text" name="direccion" id="direccion" class="input" required>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="field is-horizontal">
-                        <div class="field-label">
-                            <label for="telefono" class="label">Teléfonos: <strong style="color: red;">*</strong></label>
-                        </div>
-                        <div class="field-body">
-                            <div class="field">
-                                <p class="control">
-                                    <input type="text" name="telefono" id="telefono" class="input" required>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="field is-horizontal">
-                        <div class="field-label">
-                            <label for="email" class="label">Correo electronico: <strong style="color: red;">*</strong></label>
-                        </div>
-                        <div class="field-body">
-                            <div class="field">
-                                <p class="control">
-                                    <input type="email" name="email" id="email" class="input" required>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="field is-horizontal">
-                        <div class="field-label">
-                            <label for="depto" class="label">Departamento: <strong style="color: red;">*</strong></label>
-                        </div>
-                        <div class="field-body">
-                            <div class="field is-grouped">
-                                <p class="control">
-                                    <span class="select">
-                                        <select name="depto" id="depto" required>
-                                            <option value=""></option>
-                                            {% for depto in deptos %}
-                                            <option value="{{ depto.cod_depto }}">{{ depto.nom_depto }}</option>
-                                            {% endfor %}
-                                        </select>
-                                    </span>
-                                </p>
-                                <p class="control is-expanded" hidden>
-                                    <input type="text" name="nom_depto" id="nom_depto" class="input" readonly>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="field is-horizontal">
-                        <div class="field-label">
-                            <label for="municipio" class="label is-small">Municipio: <strong style="color: red;">*</strong></label>
-                        </div>
-                        <div class="field-body">
-                            <div class="field is-grouped">
-                                <p class="control">
-                                    <span class="select">
-                                        <select name="municipio" id="municipio" required></select>
-                                    </span>
-                                </p>
-                                <p class="control is-expanded" hidden>
-                                    <input type="text" name="nom_municipio" id="nom_municipio" class="input" readonly>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="field is-horizontal">
-                        <div class="field-label">
-                            <label for="sexo" class="label">Sexo: <strong style="color: red;">*</strong></label>
-                        </div>
-                        <div class="field-body">
-                            <div class="field">
-                                <p class="control">
-                                    <span class="select">
-                                        <select name="sexo" id="sexo" required>
-                                            <option value=""></option>
-                                            <option value="H">Hombre</option>
-                                            <option value="M">Mujer</option>
-                                            <option value="I">Inderterminado o Intersexual</option>
-                                        </select>
-                                    </span>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="field is-horizontal">
-                        <div class="field-label">
-                            <label for="etnia" class="label">Etnia o Grupo: <strong style="color: red;">*</strong></label>
-                        </div>
-                        <div class="field-body">
-                            <div class="field">
-                                <span class="select">
-                                    <select name="etnia" id="etnia" required>
-                                        <option value=""></option>
-                                        {% for etnia in etnias %}
-                                        <option value="{{ etnia.cod_etnia }}">{{ etnia.nom_etnia }}</option>
-                                        {% endfor %}
-                                    </select>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="field is-horizontal">
-                        <div class="field-label">
-                            <label for="puesto_votacion" class="label">Puesto de Votación: <strong style="color: red;">*</strong></label>
-                        </div>
-                        <div class="field-body">
-                            <div class="field">
-                                <p class="control">
-                                    <input type="text" name="puesto_votacion" id="puesto_votacion" class="input" required>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="field is-horizontal">
-                        <div class="field-label">
-                            <label for="direccion_puesto" class="label">Dirección Puesto: <strong style="color: red;">*</strong></label>
-                        </div>
-                        <div class="field-body">
-                            <div class="field">
-                                <p class="control">
-                                    <input type="text" name="direccion_puesto" id="direccion_puesto" class="input" required>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="field is-horizontal">
-                        <div class="field-label">
-                            <label for="mesa_votacion" class="label">Mesa de Votación: <strong style="color: red;">*</strong></label>
-                        </div>
-                        <div class="field-body">
-                            <div class="field">
-                                <p class="control">
-                                    <input type="text" name="mesa_votacion" id="mesa_votacion" class="input" required>
-                                </p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <hr>
+            <hr>
+            <!-- Datos Puesto de Votación -->
+            <div class="card">
+                <header class="card-header">
+                    <p class="card-header-title">Datos Puesto de Votación</p>
+                </header>
+                <div class="card-content">
+                    <div class="content">
+                        <div class="field is-horizontal">
+                            <div class="field-label" style="font-size: small;">
+                                <label for="puesto_votacion" class="label is-small">Puesto de Votación: <strong style="color: red;">*</strong></label>
+                            </div>
+                            <div class="field-body">
+                                <div class="field">
+                                    <p class="control">
+                                        <input type="text" name="puesto_votacion" id="puesto_votacion" class="input is-small" required>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field is-horizontal">
+                            <div class="field-label" style="font-size: small;">
+                                <label for="direccion_puesto" class="label is-small">Dirección Puesto: <strong style="color: red;">*</strong></label>
+                            </div>
+                            <div class="field-body">
+                                <div class="field">
+                                    <p class="control">
+                                        <input type="text" name="direccion_puesto" id="direccion_puesto" class="input is-small" required>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field is-horizontal">
+                            <div class="field-label" style="font-size: small;">
+                                <label for="mesa_votacion" class="label is-small">Mesa de Votación: <strong style="color: red;">*</strong></label>
+                            </div>
+                            <div class="field-body">
+                                <div class="field">
+                                    <p class="control">
+                                        <input type="text" name="mesa_votacion" id="mesa_votacion" class="input is-small" required>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <!-- Datos de Campaña y Nicho -->
+            <div class="card">
+                <header class="card-header">
+                    <p class="card-header-title">Datos Campaña y Nicho</p>
+                </header>
+                <div class="card-content">
+                    <div class="content">
+                        <div class="field is-horizontal">
+                            <div class="field-label" style="font-size: small;">
+                                <label for="camp_asignada" class="label is-small">Campaña: <strong style="color: red;">*</strong></label>
+                            </div>
+                            <div class="field-body">
+                                <div class="field">
+                                    <p class="control">
+                                        <span class="select is-small">
+                                            <select name="camp_asignada" id="camp_asignada" required>
+                                                <option value=""></option>
+                                                {% for camp in camps %}
+                                                <option value="{{ camp.ID }}">{{ camp.nombre }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field is-horizontal">
+                            <div class="field-label" style="font-size: small;">
+                                <label for="nicho" class="label is-small">Nicho: <strong style="color: red;">*</strong></label>
+                            </div>
+                            <div class="field-body">
+                                <div class="field">
+                                    <span class="select is-small">
+                                        <select name="nicho" id="nicho" required>
+                                            <option value=""></option>
+                                            {% for nicho in nichos %}
+                                            <option value="{{ nicho.cod_nicho }}">{{ nicho.nom_nicho }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
         <div class="field is-grouped is-grouped-centered">
             <p class="control">
                 <button type="submit" class="button is-success">
@@ -261,6 +328,6 @@
 {% endblock %}
 
 {% block foot_scripts %}
-<script src="https://cdn.jsdelivr.net/npm/@simondmc/popup-js@1.4.3/popup.min.js"></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/@simondmc/popup-js@1.4.3/popup.min.js"></script> -->
 <script src="{{ url_for('static', filename='js/registros/nuevo_registro.js') }}"></script>
 {% endblock %}

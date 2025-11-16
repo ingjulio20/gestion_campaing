@@ -62,7 +62,7 @@ const get_Municipios = () => {
     .then(response => response.json())
     .then(data => {
         data.forEach(mun => {
-            municipio.innerHTML += `<option value="${mun.id_municipio}">${mun.nom_municipio}</option>`
+            municipio.innerHTML += `<option value="${mun.cod_municipio}">${mun.nom_municipio}</option>`
         })
     })
     .catch(error => console.error("error: ", error))

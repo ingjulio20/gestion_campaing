@@ -1,6 +1,13 @@
 {% extends 'menu.html' %}
 
 {% block css %}
+<style>
+    .inter-scrollable-section{
+        height: 370px;
+        overflow-y: scroll;
+        padding: 0rem 0rem;
+    }
+</style>
 {% endblock %}
 
 {% block header_scripts %}
@@ -18,6 +25,12 @@
                 <span>Nuevo Registro</span>
             </a>
         </p>
+        <p class="control">
+            <a href="#" class="button is-normal is-info" aria-disabled="true" disabled>
+                <span class="icon is-small"><i aria-hidden="true"><img src="{{ url_for('static', filename='img/icons/añadir.png')}}" alt="icon-añadir"></i></span>
+                <span>Nuevos Registros Masivos</span>
+            </a>
+        </p>
     </div>
     <div class="card">
         <header class="card-header">
@@ -25,33 +38,113 @@
         </header>
         <div class="card-content">
             <div class="content">
-                <table id="tablaRegistros" class="table is-striped" style="width: 100%;">
-                    <thead>
-                        <tr>
-                            <th scope="col" style="width: 10%;">ID</th>
-                            <th scope="col" style="width: 10%;">NUIP</th>
-                            <th scope="col" style="width: 30%;">Nombre Completo</th>
-                            <th scope="col" style="width: 20%;">Registrado Por</th>
-                            <th scope="col" style="width: 20%;">Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for registro in registros %}
-                        <tr>
-                            <td style="width: 10%;">{{ registro.ID }}</td>
-                            <td style="width: 10%;">{{ registro.nuip }}</td>
-                            <td style="width: 30%;">{{ registro.nombre }}</td>
-                            <td style="width: 30%;">{{ registro.usuario }}</td>
-                            <td style="width: 20%;">
-                                <a href="{{ url_for('registros.editar_registro', id = registro.ID ) }}" class="button is-small is-info has-tooltip-bottom" data-tooltip="Editar" style="padding: 0em 1.0em;">
-                                    <span class="icon is-small"><i aria-hidden="true"><img src="{{ url_for('static', filename='img/icons/editar.png') }}" alt="icon-editar"></i></span>
+                <div class="field is-horizontal">
+                    <div class="field-label" style="font-size: small;">
+                        <label for="buscar_registro" class="label is-small">Busqueda por Documento:</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field is-grouped">
+                            <p class="control">
+                                <input type="text" name="buscar_registro" id="buscar_registro" class="input is-small">
+                            </p>
+                            <p class="control">
+                                <a id="btn_buscar" class="button is-small is-info has-tooltip-bottom" data-tooltip="Realizar Busqueda">
+                                    <span class="icon is-small"><i aria-hidden="true"><img src="{{ url_for('static', filename='img/icons/buscar.png') }}" alt="icon-buscar"></i></span>
                                 </a>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <section class="inter-scrollable-section">
+                    <table id="tablaRegistros" class="table is-striped" style="width: 100%;">
+                        <thead>
+                            <tr>
+                                <th scope="col" style="font-size: small; width: 5%;">ID</th>
+                                <th scope="col" style="font-size: small; width: 10%;">NUIP</th>
+                                <th scope="col" style="font-size: small; width: 20%;">Nombre Completo</th>
+                                <th scope="col" style="font-size: small; width: 20%;">Campaña</th>
+                                <th scope="col" style="font-size: small; width: 20%;">Funcionario</th>
+                                <th scope="col" style="font-size: small; width: 10%;">User_Funcionario</th>
+                                <th scope="col" style="font-size: small; width: 5%;">Votó?</th>
+                                <th scope="col" style="font-size: small; width: 10%;">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </section>
+                
             </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Cargue Certificado -->
+<div id="modalCargueCertificado" class="modal is-hidden">
+    <div class="modal-background"></div>
+    <div class="modal-content">
+        <div class="box">
+            <form id="formCargueCertificado" action="{{ url_for('registros.update_registro_voto') }}" method="post" enctype="multipart/form-data">
+                <div class="card">
+                    <header class="card-header">
+                        <p class="card-header-title">Confirmar Voto y Cargar Cert. Electoral</p>
+                    </header>
+                    <div class="card-content">
+                        <div class="content">
+                            <div class="field is-grouped">
+                                <p class="control">
+                                    <label for="id_registro" class="label is-small">ID</label>
+                                    <input type="text" name="id_registro" id="id_registro" class="input is-small" readonly>
+                                </p>
+                                <p class="control">
+                                    <label for="nuip_registro" class="label is-small">NUIP</label>
+                                    <input type="text" name="nuip_registro" id="nuip_registro" class="input is-small" readonly>
+                                </p>
+                                <p class="control is-expanded">
+                                    <label for="nombre_registro" class="label is-small">Nombre Completo</label>
+                                    <input type="text" name="nombre_registro" id="nombre_registro" class="input is-small" readonly>
+                                </p>
+                            </div>
+                            <hr>
+                            <div class="field is-grouped">
+                                <p class="control">
+                                    <label for="voto_ejercido" class="label">Votó? : <strong style="color: red;">*</strong></label>
+                                </p>
+                                <p class="control">
+                                    <input type="text" name="voto_ejercido" id="voto_ejercido" class="input is-small" value="SÍ" readonly required>
+                                </p>
+                                <p class="control">
+                                    <div id="file-certificado" class="file is-small has-name">
+                                        <label class="file-label">
+                                            <input class="file-input" type="file" name="cert_voto" accept=".pdf" size="1024000" required />
+                                                <span class="file-cta">
+                                                    <span class="file-icon"><i aria-hidden="true"><img src="{{ url_for('static', filename='img/icons/enviar.png') }}" alt="icon-enviar"></i></span>
+                                                    <span class="file-label"> Cargar PDF </span>
+                                                </span>
+                                                <span class="file-name"> No hay PDF cargado </span>
+                                        </label>
+                                    </div>
+                                </p>
+                            </div>
+                            <hr>
+                            <div class="field is-grouped is-grouped-centered">
+                                <p class="control">
+                                    <button type="submit" class="button is-normal is-success">
+                                        <span class="icon is-small"><i aria-hidden="true"><img src="{{ url_for('static', filename='img/icons/guardar.png') }}" alt="icon-guardar"></i></span>
+                                        <span>Confirmar y Cargar</span>
+                                    </button>
+                                </p>
+                                <p class="control">
+                                    <a id="btn_modal_cancelar" class="button is-normal is-danger">
+                                        <span class="icon is-small"><i aria-hidden="true"><img src="{{ url_for('static', filename='img/icons/cancelar.png') }}" alt="icon-cancelar"></i></span>
+                                        <span>Cancelar</span>
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>    
         </div>
     </div>
 </div>

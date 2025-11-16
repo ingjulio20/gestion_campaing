@@ -35,7 +35,7 @@
         <div class="navbar-menu">
             <div class="navbar-start">
                  <!-- Menú Parametrización -->
-                <div class="navbar-item has-dropdown is-hoverable">
+                <div id="menu1" class="navbar-item has-dropdown is-hoverable is-hidden">
                     <a class="navbar-link">
                         <span>Parametrización</span>
                     </a>
@@ -55,7 +55,7 @@
                     </div>
                 </div>
                 <!-- Reportes y Analatica -->
-                <div class="navbar-item has-dropdown is-hoverable">
+                <div id="menu2" class="navbar-item has-dropdown is-hoverable is-hidden">
                     <a class="navbar-link">
                         <span>Reportes y Analitica</span>
                     </a>
@@ -69,7 +69,7 @@
                     </div>
                 </div>
                 <!-- Registros -->
-                <a id="registrosLink" href="{{ url_for('registros.registros') }}" class="navbar-item">
+                <a id="registrosLink" href="{{ url_for('registros.registros') }}" class="navbar-item is-hidden">
                     <span>Registro de Votantes</span>
                 </a>
             </div>
@@ -97,6 +97,7 @@
     </div>
 </body>
 
+<script src="{{ url_for('static', filename='js/profiles.js')}}"></script>
 <script src="{{ url_for('static', filename='js/sweetalert2.all.min.js') }}"></script>
 <script src="{{ url_for('static', filename='js/modal.js') }}"></script>
 <!-- Scripts DataTables -->

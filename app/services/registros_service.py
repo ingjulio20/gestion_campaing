@@ -3,18 +3,18 @@ from app.database import db
 #Nuevo Registro
 def insert_registro(tipo_documento, nuip, nombre_completo, fecha_nacimiento, direccion, telefono, email,
                     depto, nom_depto, municipio, nom_municipio, sexo, etnia, puesto_votacion, direccion_puesto, 
-                    mesa_votacion, usuario_registro):
+                    mesa_votacion, camp_asignada, nicho, usuario_registro):
     
     conn = db.connection()
     operation = """ INSERT INTO registros (tipo_documento, nuip, nombre_completo, fecha_nacimiento, direccion, telefono, email,
                     depto, nom_depto, municipio, nom_municipio, sexo, etnia, puesto_votacion, direccion_puesto, 
-                    mesa_votacion, usuario_registro) 
+                    mesa_votacion, camp_asignada, nicho, usuario_registro) 
                     VALUES 
-                    (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
+                    (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
     
     params = (tipo_documento, nuip, nombre_completo, fecha_nacimiento, direccion, telefono, email,
               depto, nom_depto, municipio, nom_municipio, sexo, etnia, puesto_votacion, direccion_puesto, 
-              mesa_votacion, usuario_registro)
+              mesa_votacion, camp_asignada, nicho, usuario_registro)
     
     with conn.cursor() as cursor:
         cursor.execute(operation, params)
@@ -40,6 +40,16 @@ def update_registro(tipo_documento, nuip, nombre_completo, fecha_nacimiento, dir
         conn.commit()
         conn.close()
 
+#Actulizar Datos de Voto en registro
+def update_voto_registro(voto_ejercido, cert_voto, id_registro):
+    conn = db.connection()
+    operation = """ UPDATE registros SET voto_ejercido = %s, cert_voto = %s WHERE id_registro = %s """
+    params = (voto_ejercido, cert_voto, id_registro)
+    with conn.cursor() as cursor:
+        cursor.execute(operation, params)
+        conn.commit()
+        conn.close()
+
 #Eliminar Registro
 def delete_registro(id_registro):
     conn = db.connection()
@@ -49,16 +59,21 @@ def delete_registro(id_registro):
         conn.commit()
         conn.close()
 
-#Listar todos los registros
-def list_registros():
+#Listar todos los registros x nuip
+def list_registros_nuip(nuip):
     registros = []
+    nuip = f"{nuip}%"
     conn = db.connection()
-    operation = """ SELECT id_registro, nuip, nombre_completo, usuario_registro FROM registros """
+    operation = """ SELECT rg.id_registro ID, rg.nuip NUIP, rg.nombre_completo VOTANTE, c.nom_camp CAMPAÑA, u.nombre_completo FUNCIONARIO, rg.usuario_registro USER_FUNCIONARIO, rg.voto_ejercido VOTO
+                    FROM registros rg 
+                    LEFT JOIN usuarios u on rg.usuario_registro = u.usuario
+                    LEFT JOIN camp_electoral c on c.id_camp = rg.camp_asignada
+                    WHERE rg.nuip LIKE %s """
     with conn.cursor() as cursor:
-        cursor.execute(operation)
+        cursor.execute(operation, (nuip, ))
         result = cursor.fetchall()
         for row in result:
-            registros.append({'ID': row[0], 'nuip': row[1], 'nombre': row[2], 'usuario': row[3]})
+            registros.append({'ID': row[0], 'nuip': row[1], 'votante': row[2], 'camp': row[3], 'funcionario': row[4], 'user_funcionario': row[5], 'voto': row[6]})
 
     conn.close()
     return registros
