@@ -36,9 +36,10 @@ const getRegistrosNuip = () => {
           <td style="font-size: small; width: 20%;">${registro.votante}</td>
           <td style="font-size: small; width: 20%;">${registro.camp}</td>
           <td style="font-size: small; width: 20%;">${registro.funcionario}</td>
-          <td style="font-size: small; width: 10%;">${registro.user_funcionario}</td>
+          <td style="font-size: small; width: 5%;">${registro.user_funcionario}</td>
+          <td style="font-size: small; width: 10%;">${registro.nicho}</td>
           <td style="font-size: small; width: 5%;">${registro.voto}</td>
-          <td style="font-size: small; width: 10%;">
+          <td style="font-size: small; width: 5%;">
             <a href="/editar_registro/${registro.ID}" class="button is-small is-info has-tooltip-bottom" data-tooltip="Editar" style="padding: 0em 1.0em;">
                 <span class="icon is-small"><i aria-hidden="true"><img src="./static/img/icons/editar.png" alt="icon-editar"></i></span>
             </a>

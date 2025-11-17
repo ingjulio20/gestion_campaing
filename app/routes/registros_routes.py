@@ -84,7 +84,9 @@ def editar_registro(id):
     tipos = documentos_service.list_tipoDocumentos()
     deptos = deptos_service.list_departamentos()
     etnias = etnias_service.list_etnias()
-    return render_template('tmp_registros/editar_registro.html', registro = registro, tipos = tipos, deptos = deptos, etnias = etnias)
+    camps = campaña_service.list_camp_electorales()
+    nichos = nichos_service.list_nichos()
+    return render_template('tmp_registros/editar_registro.html', registro = registro, tipos = tipos, deptos = deptos, etnias = etnias, camps = camps, nichos = nichos)
 
 @bp_registros.post('/update_registro')
 def update_registro():
@@ -105,11 +107,13 @@ def update_registro():
         puesto_votacion = request.form["puesto_votacion"]
         direccion_puesto = request.form["direccion_puesto"]
         mesa_votacion = request.form["mesa_votacion"]
+        camp_asignada = request.form["camp_asignada"]
+        nicho = request.form["nicho"]
         id_registro = request.form["id_registro"]
 
         registros_service.update_registro(tipo_documento, nuip, nombre_completo, fecha_nacimiento, direccion, telefono,
                                           email, depto, nom_depto, municipio, nom_municipio, sexo, etnia, 
-                                          puesto_votacion, direccion_puesto, mesa_votacion, id_registro)
+                                          puesto_votacion, direccion_puesto, mesa_votacion, camp_asignada, nicho, id_registro)
         
         flash("Datos de Registro Actualizados Exitosamente", "success")
         return redirect(url_for('registros.registros'))
