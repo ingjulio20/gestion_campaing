@@ -147,13 +147,54 @@ def update_registro_voto():
     except Exception as ex:
         flash(f"Se presentó un error inesperado: {ex}", "error")
         return redirect(url_for('registros.registros'))
- 
-@bp_registros.get('/getRegistrosDepto')
+
+#Ruta Ajax para Obtener Total de Registros x Campaña
+@bp_registros.post('/getRegistrosCamp')
+def getRegistrosCamp():
+    try:
+        data = request.get_json()
+        id_camp = data.get("id_camp")
+        registros_camp = registros_service.count_registros_camp(id_camp)
+        if registros_camp:
+            return jsonify(registros_camp)
+        else: 
+            return jsonify({"Error": "No se encontraron registros."})
+
+    except error.Error as e: 
+        return jsonify({"Error": f"{e.msg}"})
+    
+    except Exception as ex:
+        return jsonify({"Error": f"{ex}"})
+
+#Ruta Ajax para obtener los Registros con Voto Confirmado x Campaña
+@bp_registros.post('/getRegistrosVotosConfirmados')
+def getRegistrosVotosConfirmados():
+    try:
+        data = request.get_json()
+        id_camp = data.get("id_camp")
+        registros_voto_confirmado = registros_service.count_registros_positivos(id_camp)
+        if registros_voto_confirmado:
+            return jsonify(registros_voto_confirmado)
+        else:
+            return jsonify({"Error": "No se encontraron registros."})
+
+    except error.Error as e:
+        return jsonify({"Error": f"{e.msg}"})
+    
+    except Exception as ex:
+        return jsonify({"Error": f"{ex}"})
+
+#Ruta Ajax para Obtener Registros de Campaña x Depto.
+@bp_registros.post('/getRegistrosDepto')
 def getRegistrosDepto():
     try:
-        registros_depto = registros_service.count_registros_x_depto()
+        data = request.get_json()
+        id_camp = data.get("id_camp")
+        registros_depto = registros_service.count_registros_x_depto(id_camp)
         if registros_depto:
             return jsonify(registros_depto)
+        else:
+            return jsonify(0)
 
     except Exception as ex:
         return jsonify(ex)        

@@ -1,0 +1,112 @@
+{% extends 'menu.html' %}
+
+{% block css %}
+{% endblock %}
+
+{% block header_scripts %}
+{% endblock %}
+   
+{% block title %}Dashboard Analisís{% endblock %}
+
+{% block content %}
+<h4 class="title is-4">Dashboard</h4>
+<div class="container">
+    <div class="field is-grouped">
+        <p class="control">
+            <label for="select_camp" class="label is-small">Seleccione Campaña:</label>
+        </p>
+        <p class="control">
+            <span class="select is-small">
+                <select name="select_camp" id="select_camp">
+                    <option value=""></option>
+                    {% for camp in camps %}
+                    <option value="{{ camp.ID }}">{{ camp.nombre }}</option>
+                    {% endfor %}
+                </select>
+            </span>
+        </p>
+        <p class="control">
+            <a id="printDashboard" class="button is-small is-info">
+                <span class="icon is-small"><i aria-hidden="true"></i></span>
+                <span>Imprimir</span>
+            </a>
+        </p>
+    </div>
+    <br>
+    <div class="columns">
+        <div class="column">
+            <div class="card">
+                <header class="card-header" style="background-color: #8e44ad;">
+                    <p class="card-header-title" style="color: white;">Meta de Simpatizantes y de Votos</p>
+                </header>
+                <div class="card-content">
+                    <div class="content">
+                        <table id="tablaMetas" class="table is-small is-striped" style="font-size: small;">
+                            <thead>
+                                <tr>
+                                    <th>Meta de Simpatizantes</th>
+                                    <th>Meta de Votos</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="column">
+            <div class="field is-grouped">
+                <p class="control">
+                    <div class="card">
+                        <header class="card-header" style="background-color:  #8e44ad;">
+                            <p class="card-header-title" style="color: white;">Simpatizantes Registrados</p>
+                        </header>
+                        <div class="card-content">
+                            <div class="content" style="display: flex; justify-content: center; align-items: center;">
+                                <h5 id="registrosCamp" class="title is-5"></h5>
+                            </div>
+                        </div>
+                    </div>
+                </p>
+                <p class="control">
+                    <div class="card">
+                        <header class="card-header" style="background-color:  #8e44ad;">
+                            <p class="card-header-title" style="color: white;">Votos Confirmados</p>
+                        </header>
+                        <div class="card-content">
+                            <div class="content" style="display: flex; justify-content: center; align-items: center;">
+                                <h5 id="registrosVotoPositivo" class="title is-5"></h5>
+                            </div>
+                        </div>
+                    </div>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="columns">
+        <div class="column">
+            <div class="card">
+                <header class="card-header">
+                    <p class="card-header-title">Simpatizantes Registrados por Departamento</p>
+                </header>
+                <div class="card-content">
+                    <div class="content">
+                        <div style="width: 650px;">
+                            <canvas id="chartRegistros"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="column"></div>
+    </div>
+    <br>
+    <p><strong>⚠️ Nota Importante sobre los Datos Presentados ⚠️</strong></p>
+    <p style="text-align: justify;"> La <strong>información</strong> y los <strong>datos</strong> presentados en este informe tienen como único propósito servir de material de <strong>análisis, comparación y seguimiento</strong> del proceso de campaña electoral. Es crucial entender que estos datos son el reflejo de la información <strong>suministrada</strong> para dicho estudio. Los <strong>resultados electorales oficiales</strong> y <strong>finales</strong> que tienen validez legal provienen exclusivamente del proceso de <strong>escrutinio</strong> y <strong>conteo de votos</strong> realizado por la <strong>Registraduría Nacional del Estado Civil</strong> de Colombia, siendo esta la única fuente autorizada para declarar los resultados definitivos.</p>
+</div>
+{% endblock %}
+
+{% block foot_scripts %}
+<!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->
+<script src="{{ url_for('static', filename='js/chart.js') }}"></script>
+<script src="{{ url_for('static', filename='js/reportes/dashboard.js') }}"></script>
+{% endblock %}

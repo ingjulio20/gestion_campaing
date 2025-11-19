@@ -92,27 +92,42 @@ def list_registro_id(id_registro):
     conn.close()
     return registro
 
-#Contar Todos los Registros
-def count_registros():
+#Contar Todos los Registros X Campaña
+def count_registros_camp(camp_asignada):
     conteo = None
     conn = db.connection()
-    operation = """ SELECT COUNT(*) FROM registros """
+    operation = """ SELECT FORMAT(COUNT(r.camp_asignada), 0) FROM registros r
+                    WHERE r.camp_asignada = %s """
     with conn.cursor() as cursor:
-        cursor.execute(operation)
+        cursor.execute(operation, (camp_asignada, ))
         conteo = cursor.fetchone()
 
     conn.close()
     return conteo
 
-#Contar Todos los Registros por Departamento
-def count_registros_x_depto():
+#Contar Todos los Registros con Voto Confirmado x Campaña
+def count_registros_positivos(camp_asignada):
+    conteo = None
+    conn = db.connection()
+    operation = """ SELECT FORMAT(COUNT(r.voto_ejercido), 0) FROM registros r
+                    WHERE r.voto_ejercido = 'SÍ' AND r.camp_asignada = %s """
+    with conn.cursor() as cursor:
+        cursor.execute(operation, (camp_asignada, ))
+        conteo = cursor.fetchone()
+
+    conn.close()
+    return conteo    
+
+#Contar Todos los Registros de Campaña x Depto.
+def count_registros_x_depto(camp_asiganada):
     registros_depto = []
     conn = db.connection()
-    operation = """ SELECT COUNT(nom_depto), nom_depto FROM registros 
-                    GROUP BY nom_depto """
+    operation = """ SELECT COUNT(r.nom_depto), r.nom_depto FROM registros r
+                    WHERE r.camp_asignada = %s
+                    GROUP BY r.nom_depto """
     
     with conn.cursor() as cursor:
-        cursor.execute(operation)
+        cursor.execute(operation, (camp_asiganada, ))
         result = cursor.fetchall()
         for row in result:
             registros_depto.append({'numero': row[0], 'depto': row[1]})

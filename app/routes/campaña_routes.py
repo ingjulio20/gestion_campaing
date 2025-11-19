@@ -77,3 +77,21 @@ def delete_campaña(id):
     except Exception as ex:
         flash(f"Se presentó un error inesperado: {ex}", "error")
         return redirect(url_for('campañas.campañas'))
+
+#Ruta Ajax Para Obtener datos de Campaña
+@bp_campañas.post('/getDatosCamp')
+def getDatosCamp():
+    try:
+        data = request.get_json()
+        id_camp = data.get("id_camp")
+        camp = campaña_service.list_camp_id(id_camp)
+        if camp:
+            return jsonify(camp)
+        else:
+            return jsonify({"Error": "No se encontraron datos relacionados"})
+
+    except error.Error as e:
+        return jsonify({"Error": f"{e.msg}"})
+    
+    except Exception as ex: 
+        return jsonify({"Error": f"{ex}"})

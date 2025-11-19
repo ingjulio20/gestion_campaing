@@ -54,4 +54,4 @@ def list_camp_id(id_camp):
         camp = result
 
     conn.close()
-    return camp
+    return camp    

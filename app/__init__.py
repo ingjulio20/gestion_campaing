@@ -9,6 +9,7 @@ from app.routes.registros_routes import bp_registros
 from app.routes.funcionarios_routes import bp_funcionarios
 from app.routes.nichos_routes import bp_nichos
 from app.routes.campaña_routes import bp_campañas
+from app.routes.reportes_routes import bp_reportes
 
 #Inicialización
 app = Flask(__name__)
@@ -25,6 +26,7 @@ app.register_blueprint(bp_registros)
 app.register_blueprint(bp_funcionarios)
 app.register_blueprint(bp_nichos)
 app.register_blueprint(bp_campañas)
+app.register_blueprint(bp_reportes)
 
 #Ruta Metodo para verificar las URL y Redireccionar al Login
 @app.before_request
