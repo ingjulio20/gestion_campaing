@@ -14,7 +14,8 @@ def connection():
         password = password,
         host = host,
         database = database,
-        port = port
+        port = port,
+        allow_local_infile = True
     )
     
     #Devolver Conexión

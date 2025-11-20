@@ -14,9 +14,7 @@ def index():
 
 @bp_index.get('/main')
 def main():
-    conteo = registros_service.count_registros()
-    registros_depto = registros_service.count_registros_x_depto()
-    return render_template('main.html', conteo = conteo, registros_depto = registros_depto)
+    return render_template('main.html')
 
 #Ruta Metodo Post Recorrido BD usuarios y perfiles y acceso
 @bp_index.post('/login_access')

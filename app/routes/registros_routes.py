@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify
 from app.services import documentos_service, deptos_service, etnias_service, campaña_service, nichos_service, registros_service
 import mysql.connector.errors as error
+import tempfile, os #Librerias para Cargue Masivo de Tuplas
 from io import BytesIO
 import base64
 
@@ -31,6 +32,7 @@ def getRegistros():
     except Exception as ex:
         return jsonify({"Error": f"{ex}"})
 
+#Ruta Ventana Nuevo Registro
 @bp_registros.get('/nuevo_registro')
 def nuevo_registro():
     tipos = documentos_service.list_tipoDocumentos()
@@ -40,6 +42,7 @@ def nuevo_registro():
     nichos = nichos_service.list_nichos()
     return render_template('tmp_registros/nuevo_registro.html', tipos = tipos, deptos = deptos, etnias = etnias, camps = camps, nichos = nichos)
 
+#Ruta Metodo Nuevo Registro
 @bp_registros.post('/add_registro')
 def add_registro():
     try:
@@ -78,6 +81,27 @@ def add_registro():
         flash(f"Se presentó un error inesperado: {ex}", "error")
         return redirect(url_for('registros.registros'))
 
+#Ruta para Insert/Cargue Masivo de Registros
+@bp_registros.post('/uploadRegistrosMasivos')
+def uploadRegistrosMasivos():
+    try:
+        registrosMasivos = request.files["registrosMasivos"]
+        tmp = tempfile.NamedTemporaryFile(delete=False, suffix=".csv")
+        registrosMasivos.save(tmp.name)
+
+        registros_service.insert_masivo_registros(tmp.name)
+        flash("Registros Cargados Exitosamente", "success")
+        return redirect(url_for('registros.registros'))
+
+    except error.Error as e:
+        flash(f"Se presentó un error inesperado: {e.msg}", "error")
+        return redirect(url_for('registros.registros'))
+
+    except Exception as ex:
+        flash(f"Se presentó un error inesperado: {ex}", "error")
+        return redirect(url_for('registros.registros')) 
+
+#Ruta Ventana Editar Registro
 @bp_registros.get('/editar_registro/<int:id>')
 def editar_registro(id):
     registro = registros_service.list_registro_id(id)
@@ -88,6 +112,7 @@ def editar_registro(id):
     nichos = nichos_service.list_nichos()
     return render_template('tmp_registros/editar_registro.html', registro = registro, tipos = tipos, deptos = deptos, etnias = etnias, camps = camps, nichos = nichos)
 
+#Ruta Metodo Modificar datos de Registro
 @bp_registros.post('/update_registro')
 def update_registro():
     try:
@@ -161,10 +186,10 @@ def getRegistrosCamp():
             return jsonify({"Error": "No se encontraron registros."})
 
     except error.Error as e: 
-        return jsonify({"Error": f"{e.msg}"})
+        return jsonify({"Error": f"{e.msg}"}), 500
     
     except Exception as ex:
-        return jsonify({"Error": f"{ex}"})
+        return jsonify({"Error": f"{ex}"}), 500
 
 #Ruta Ajax para obtener los Registros con Voto Confirmado x Campaña
 @bp_registros.post('/getRegistrosVotosConfirmados')
@@ -179,10 +204,10 @@ def getRegistrosVotosConfirmados():
             return jsonify({"Error": "No se encontraron registros."})
 
     except error.Error as e:
-        return jsonify({"Error": f"{e.msg}"})
+        return jsonify({"Error": f"{e.msg}"}), 500
     
     except Exception as ex:
-        return jsonify({"Error": f"{ex}"})
+        return jsonify({"Error": f"{ex}"}), 500
 
 #Ruta Ajax para Obtener Registros de Campaña x Depto.
 @bp_registros.post('/getRegistrosDepto')
@@ -197,4 +222,4 @@ def getRegistrosDepto():
             return jsonify(0)
 
     except Exception as ex:
-        return jsonify(ex)        
+        return jsonify(ex), 500     

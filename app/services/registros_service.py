@@ -134,3 +134,27 @@ def count_registros_x_depto(camp_asiganada):
     
     conn.close()
     return registros_depto
+
+#Carga Masiva de Registros
+def insert_masivo_registros(archivo):
+    conn = db.connection()
+    try:
+        operation = """ LOAD DATA LOCAL INFILE %s
+                        INTO TABLE registros 
+                        CHARACTER SET utf8mb4
+                        FIELDS TERMINATED BY ';' 
+                        ENCLOSED BY '"'
+                        LINES TERMINATED BY '\\n'
+                        IGNORE 1 LINES
+                        (tipo_documento, nuip, nombre_completo, direccion, telefono, email, depto,nom_depto, municipio,nom_municipio, sexo, etnia, camp_asignada, nicho, usuario_registro);"""
+        
+        with conn.cursor() as cursor:
+            cursor.execute(operation, (archivo, ))
+            conn.commit()
+    
+    except Exception as ex:
+        conn.rollback()
+        raise ex
+
+    finally:
+        conn.close()

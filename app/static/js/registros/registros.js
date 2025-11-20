@@ -43,7 +43,7 @@ const getRegistrosNuip = () => {
             <a href="/editar_registro/${registro.ID}" class="button is-small is-info has-tooltip-bottom" data-tooltip="Editar" style="padding: 0em 1.0em;">
                 <span class="icon is-small"><i aria-hidden="true"><img src="./static/img/icons/editar.png" alt="icon-editar"></i></span>
             </a>
-            <a onclick="activarModal(${registro.ID}, '${registro.nuip}', '${registro.votante}')" class="button is-small is-info has-tooltip-bottom" data-tooltip="Confirmar Voto y Cargar Cert. Electoral" style="padding: 0em 1.0em;">
+            <a onclick="activarModalCargueCert(${registro.ID}, '${registro.nuip}', '${registro.votante}')" class="button is-small is-info has-tooltip-bottom" data-tooltip="Confirmar Voto y Cargar Cert. Electoral" style="padding: 0em 1.0em;">
                 <span class="icon is-small"><i aria-hidden="true"><img src="./static/img/icons/voto.png" alt="icon-voto"></i></span>
             </a>
           </td>
@@ -58,13 +58,13 @@ btn_buscar.addEventListener("click", (e) => {
   getRegistrosNuip();
 });
 
-/* Activar Modal */
+/* Activar Modal Cargue Certificado */
 const modalCargueCertificado = document.getElementById("modalCargueCertificado");
 const id_registro = document.getElementById("id_registro");
 const nuip_registro = document.getElementById("nuip_registro");
 const nombre_registro = document.getElementById("nombre_registro");
-const btn_modal_cancelar = document.getElementById("btn_modal_cancelar");
-const activarModal = (id, nuip, nombre) => {
+const btn_modal_cancelar_cert = document.getElementById("btn_modal_cancelar_cert");
+const activarModalCargueCert = (id, nuip, nombre) => {
   modalCargueCertificado.classList.remove('is-hidden');
   modalCargueCertificado.classList.add('is-active');
 
@@ -75,23 +75,65 @@ const activarModal = (id, nuip, nombre) => {
 }
 
 /* Cerrar Modal */
-btn_modal_cancelar.addEventListener("click", (e) => {
+btn_modal_cancelar_cert.addEventListener("click", (e) => {
   e.preventDefault();
   modalCargueCertificado.classList.remove('is-active');
 })
 
 /* Cargue de PDF */
-const fileInput = document.querySelector("#file-certificado input[type=file]");
-fileInput.onchange = () => {
-  if (fileInput.files.length > 0) {
+const fileInputCert = document.querySelector("#file-certificado input[type=file]");
+fileInputCert.onchange = () => {
+  if (fileInputCert.files.length > 0) {
     const fileName = document.querySelector("#file-certificado .file-name");
-    fileName.textContent = fileInput.files[0].name;
+    fileName.textContent = fileInputCert.files[0].name;
   }
 };
 
-/* Validar Formulario Modal Cargue */
+/* Validar Formulario Modal Cargue Cert */
 const formCargueCertificado = document.getElementById("formCargueCertificado");
 formCargueCertificado.addEventListener("submit", (e) => {
+  /* Loading */
+  Swal.fire({
+    allowOutsideClick: false,
+    allowEscapeKey: false,
+    showConfirmButton: false,
+    didOpen: () => Swal.showLoading()
+  })
+})
+
+/* Activar Modal Cargue Masivo Registros */
+const modalCargueRegistrosMasivos = document.getElementById("modalCargueRegistrosMasivos");
+const btn_activarModalCargueRegistros = document.getElementById("btn_activarModalCargueRegistros");
+const btn_modal_cancelar_reg = document.getElementById("btn_modal_cancelar_reg");
+const activarModalCargueRegistros = () => {
+  modalCargueRegistrosMasivos.classList.remove('is-hidden');
+  modalCargueRegistrosMasivos.classList.add('is-active');
+}
+
+/* Activar Modal Registros Masivos */
+btn_activarModalCargueRegistros.addEventListener("click", (e) => {
+  e.preventDefault();
+  activarModalCargueRegistros();
+})
+
+/* Cargue de CSV */
+const fileInputRegistros = document.querySelector("#file-registros input[type=file]");
+fileInputRegistros.onchange = () => {
+  if (fileInputRegistros.files.length > 0) {
+    const fileName = document.querySelector("#file-registros .file-name");
+    fileName.textContent = fileInputRegistros.files[0].name;
+  }
+};
+
+/* Cerrar Modal Registros Masivos */
+btn_modal_cancelar_reg.addEventListener("click", (e) => {
+  e.preventDefault();
+  modalCargueRegistrosMasivos.classList.remove('is-active');
+})
+
+/* Validar Formulario Modal Cargue Masivo Registros */
+const formCargueRegistrosMasivos = document.getElementById("formCargueRegistrosMasivos");
+formCargueRegistrosMasivos.addEventListener("submit", (e) => {
   /* Loading */
   Swal.fire({
     allowOutsideClick: false,

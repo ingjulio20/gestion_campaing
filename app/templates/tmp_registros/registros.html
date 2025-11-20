@@ -13,10 +13,10 @@
 {% block header_scripts %}
 {% endblock %}
 
-{% block title %}Registro de Votantes{% endblock %}
+{% block title %}Registro de Simpatizantes{% endblock %}
 
 {% block content %}
-<h4 class="title is-4">Registro de Votantes</h4>
+<h4 class="title is-4">Registro de Simpatizantes</h4>
 <div class="container">
     <div class="field is-grouped">
         <p class="control">
@@ -26,7 +26,7 @@
             </a>
         </p>
         <p class="control">
-            <a href="#" class="button is-normal is-info" aria-disabled="true" disabled>
+            <a id="btn_activarModalCargueRegistros" class="button is-normal is-info">
                 <span class="icon is-small"><i aria-hidden="true"><img src="{{ url_for('static', filename='img/icons/añadir.png')}}" alt="icon-añadir"></i></span>
                 <span>Nuevos Registros Masivos</span>
             </a>
@@ -76,6 +76,55 @@
                 </section>
                 
             </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Cargue Registros Masivos -->
+<div id="modalCargueRegistrosMasivos" class="modal is-hidden">
+    <div class="modal-background"></div>
+    <div class="modal-content">
+        <div class="box">
+            <form id="formCargueRegistrosMasivos" action="{{ url_for('registros.uploadRegistrosMasivos') }}" method="post" enctype="multipart/form-data">
+                <div class="card">
+                    <header class="card-header">
+                        <p class="card-header-title">Cargue Masivo de Registros Simpatizantes</p>
+                    </header>
+                    <div class="card-content">
+                        <div class="content">
+                            <div class="field is-grouped">
+                                <p class="control">
+                                    <div id="file-registros" class="file is-small has-name">
+                                        <label class="file-label">
+                                            <input class="file-input" type="file" name="registrosMasivos" accept=".csv" size="1024000" required />
+                                                <span class="file-cta">
+                                                    <span class="file-icon"><i aria-hidden="true"><img src="{{ url_for('static', filename='img/icons/enviar.png') }}" alt="icon-enviar"></i></span>
+                                                    <span class="file-label"> Cargar CSV </span>
+                                                </span>
+                                                <span class="file-name"> No hay CSV cargado </span>
+                                        </label>
+                                    </div>
+                                </p>
+                            </div>
+                            <hr>
+                            <div class="field is-grouped is-grouped-centered">
+                                <p class="control">
+                                    <button type="submit" class="button is-normal is-success">
+                                        <span class="icon is-small"><i aria-hidden="true"><img src="{{ url_for('static', filename='img/icons/guardar.png') }}" alt="icon-guardar"></i></span>
+                                        <span>Procesar y Guardar</span>
+                                    </button>
+                                </p>
+                                <p class="control">
+                                    <a id="btn_modal_cancelar_reg" class="button is-normal is-danger">
+                                        <span class="icon is-small"><i aria-hidden="true"><img src="{{ url_for('static', filename='img/icons/cancelar.png') }}" alt="icon-cancelar"></i></span>
+                                        <span>Cancelar</span>
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -136,7 +185,7 @@
                                     </button>
                                 </p>
                                 <p class="control">
-                                    <a id="btn_modal_cancelar" class="button is-normal is-danger">
+                                    <a id="btn_modal_cancelar_cert" class="button is-normal is-danger">
                                         <span class="icon is-small"><i aria-hidden="true"><img src="{{ url_for('static', filename='img/icons/cancelar.png') }}" alt="icon-cancelar"></i></span>
                                         <span>Cancelar</span>
                                     </a>
