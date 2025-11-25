@@ -7,6 +7,12 @@
         overflow-y: scroll;
         padding: 0rem 0rem;
     }
+
+    .enlace-desactivado {
+        pointer-events: none; /* Evita que se pueda hacer clic */
+        cursor: not-allowed;  /* Muestra el cursor de "no permitido" */
+        opacity: 0.5;         /* Lo hace semitransparente */
+    }
 </style>
 {% endblock %}
 
@@ -74,7 +80,6 @@
                         <tbody></tbody>
                     </table>
                 </section>
-                
             </div>
         </div>
     </div>
@@ -104,6 +109,12 @@
                                                 <span class="file-name"> No hay CSV cargado </span>
                                         </label>
                                     </div>
+                                </p>
+                                <br>
+                                <p class="control">
+                                    <a href="{{ url_for('registros.descargarPlantilla') }}" class="button is-small is-info">
+                                        <span>Descargar Plantilla CSV</span>
+                                    </a>
                                 </p>
                             </div>
                             <hr>

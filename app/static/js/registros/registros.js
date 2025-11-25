@@ -27,7 +27,7 @@ const getRegistrosNuip = () => {
           allowOutsideClick: false
         })
         return;
-      }
+      };
 
       data.forEach(registro => {
         tablaRegistros.insertRow().innerHTML = `
@@ -43,12 +43,13 @@ const getRegistrosNuip = () => {
             <a href="/editar_registro/${registro.ID}" class="button is-small is-info has-tooltip-bottom" data-tooltip="Editar" style="padding: 0em 1.0em;">
                 <span class="icon is-small"><i aria-hidden="true"><img src="./static/img/icons/editar.png" alt="icon-editar"></i></span>
             </a>
-            <a onclick="activarModalCargueCert(${registro.ID}, '${registro.nuip}', '${registro.votante}')" class="button is-small is-info has-tooltip-bottom" data-tooltip="Confirmar Voto y Cargar Cert. Electoral" style="padding: 0em 1.0em;">
+            <a onclick="activarModalCargueCert(${registro.ID}, '${registro.nuip}', '${registro.votante}')" class="link_cert button is-small is-info has-tooltip-bottom" data-tooltip="Confirmar Voto y Cargar Cert. Electoral" style="padding: 0em 1.0em;">
                 <span class="icon is-small"><i aria-hidden="true"><img src="./static/img/icons/voto.png" alt="icon-voto"></i></span>
             </a>
           </td>
-        `
+        `;
       });
+      console.log(desactivarEnlaces());
   })
   .catch(error => console.error("error: ", error))
 }
@@ -141,4 +142,19 @@ formCargueRegistrosMasivos.addEventListener("submit", (e) => {
     showConfirmButton: false,
     didOpen: () => Swal.showLoading()
   })
-})
+});
+
+/* Activar y Desactivar Botones */
+const desactivarEnlaces = () => {
+  let filas = document.querySelectorAll("#tablaRegistros tr");
+  filas.forEach(fila => {
+      const valor_voto = fila.cells[7].innerText.trim();
+      if(valor_voto === "SÍ"){
+          const link_cert = fila.querySelector(".link_cert");
+          if(link_cert){
+            link_cert.classList.add("enlace-desactivado");
+            link_cert.removeAttribute("onclick")
+          };  
+      };
+  });
+};

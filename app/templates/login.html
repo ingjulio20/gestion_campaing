@@ -20,7 +20,8 @@
     <div class="column">     
       <div class="container">
         <div class="box login">
-          <img class="centrar-imagen" src="{{url_for('static', filename='img/logo2.png')}}" alt="logo_campaña" width="220px" height="220px">
+          <img class="centrar-imagen" src="{{url_for('static', filename='img/logo_gc.png')}}" alt="logo_campaña" width="500" height="500">
+          <br>
           <!-- <td><img class="centrar-imagen" src="{{url_for('static', filename='assets/logo_empresa.webp')}}" alt="logo_empresa"></td> -->
           <form id="formLoginAccess" action="{{ url_for('index.login_access') }}" method="post">
             <div class="field">
@@ -54,8 +55,18 @@
               <p style="text-align: right;"><strong>v. 1.0.0</strong></p>
             </div>
           </div>
+          <br>
+          <div class="columns">
+            <div class="column"></div>
+            <div class="column">
+              <p style="font-size: xx-small; text-align: center;"><strong>Desarrollado por</strong></p>
+              <p style="text-align: center;"><img src="{{ url_for('static', filename='img/branding.png')}}" alt="icon-branding" width="80" height="80"></p>
+            </div>
+            <div class="column"></div>
+          </div>
         </div>
       </div>
+      <p style="text-align: right;"><a href="https://api.whatsapp.com/send/?phone=573017094993&text=Hola+necesito+soporte&type=phone_number&app_absent=0"><strong>¿Necesita Soporte?</strong></a></p>
     </div>
 </div>
 {% endblock %}

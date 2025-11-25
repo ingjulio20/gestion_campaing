@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify
+from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify, send_file
 from app.services import documentos_service, deptos_service, etnias_service, campaña_service, nichos_service, registros_service
 import mysql.connector.errors as error
 import tempfile, os #Librerias para Cargue Masivo de Tuplas
@@ -99,7 +99,14 @@ def uploadRegistrosMasivos():
 
     except Exception as ex:
         flash(f"Se presentó un error inesperado: {ex}", "error")
-        return redirect(url_for('registros.registros')) 
+        return redirect(url_for('registros.registros'))
+    
+#Ruta Metodo Obtener Plantilla CSV
+@bp_registros.get('/descargarPlantilla')
+def descargarPlantilla():
+    plantilla = './static/plantilla_csv.xlsm'
+    return send_file(plantilla, as_attachment=True)
+    
 
 #Ruta Ventana Editar Registro
 @bp_registros.get('/editar_registro/<int:id>')

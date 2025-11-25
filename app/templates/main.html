@@ -1,6 +1,17 @@
 {% extends 'menu.html' %}
 
 {% block css %}
+<style>
+    .container > .panel {
+        margin-top: 20%;
+        margin-bottom: 20%;
+        margin-left: 20%;
+        margin-right: 20%;
+        display: flex;
+        justify-content: center;
+        box-shadow: none;
+    }
+</style>
 {% endblock %}
 
 {% block header_scripts %}
@@ -9,56 +20,13 @@
 {% block title %}Ventana Principal{% endblock %}
 
 {% block content %}
-<h4 class="title is-4">Panel Principal</h4>
 <div class="container">
-    <div class="field is-grouped">
-        <p class="control">
-            <div class="card">
-                <header class="card-header" style="background-color:  #8e44ad;">
-                    <p class="card-header-title" style="color: white;">Meta de Votos</p>
-                </header>
-                <div class="card-content">
-                    <div class="content" style="display: flex; justify-content: center; align-items: center;">
-                        <h5 class="title is-5">210.000</h5>
-                    </div>
-                </div>
-            </div>
-        </p>
-        <p class="control">
-            <div class="card">
-                <header class="card-header" style="background-color:  #8e44ad;">
-                    <p class="card-header-title" style="color: white;">Registros de Votos</p>
-                </header>
-                <div class="card-content">
-                    <div class="content" style="display: flex; justify-content: center; align-items: center;">
-                        <h5 class="title is-5"></h5>
-                    </div>
-                </div>
-            </div>
-        </p>
-    </div>
-    <div class="columns">
-        <div class="column">
-            <div class="card">
-                <header class="card-header">
-                    <p class="card-header-title">Registros por Departamento</p>
-                </header>
-                <div class="card-content">
-                    <div class="content">
-                        <div style="width: 650px;">
-                            <canvas id="chartRegistros"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="column"></div>
+    <div class="box panel">
+        <h3 class="title is-3" style="text-align: center;">Bienvenido(a) <br> Para empezar, seleccione una opción del menú superior</h3>
     </div>
 </div>
 {% endblock %}
 
 {% block foot_scripts %}
 <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->
-<script src="{{ url_for('static', filename='js/chart.js') }}"></script>
-<script src="{{ url_for('static', filename='js/main/main.js') }}"></script>
 {% endblock %}
