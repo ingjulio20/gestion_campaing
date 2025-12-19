@@ -72,9 +72,9 @@
                                 <th scope="col" style="font-size: small; width: 20%;">Campaña</th>
                                 <th scope="col" style="font-size: small; width: 20%;">Funcionario</th>
                                 <th scope="col" style="font-size: small; width: 5%;">User_Funcionario</th>
-                                <th scope="col" style="font-size: small; width: 10%;">Nicho</th>
+                                <th scope="col" style="font-size: small; width: 5%;">Nicho</th>
                                 <th scope="col" style="font-size: small; width: 5%;">Votó?</th>
-                                <th scope="col" style="font-size: small; width: 5%;">Acciones</th>
+                                <th scope="col" style="font-size: small; width: 10%;">Acciones</th>
                             </tr>
                         </thead>
                         <tbody></tbody>
@@ -187,6 +187,9 @@
                                         </label>
                                     </div>
                                 </p>
+                                <p class="control">
+                                    <label class="label is-small" style="color: red;">(Tamaño Max. 1MB)</label>
+                                </p>
                             </div>
                             <hr>
                             <div class="field is-grouped is-grouped-centered">
@@ -207,6 +210,17 @@
                     </div>
                 </div>
             </form>    
+        </div>
+    </div>
+</div>
+
+<!-- Modal Ver Certificados -->
+<div id="modalVerCertificado" class="modal is-hidden">
+    <div class="modal-background"></div>
+    <div class="modal-content">
+        <div class="box">
+            <button id="btn_cerrarModalVerCert" class="delete is-small" aria-label="close"></button>
+            <iframe id="iframeCert" frameborder="1" width="100%" height="600"></iframe>
         </div>
     </div>
 </div>

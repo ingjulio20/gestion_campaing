@@ -37,19 +37,22 @@ const getRegistrosNuip = () => {
           <td style="font-size: small; width: 20%;">${registro.camp}</td>
           <td style="font-size: small; width: 20%;">${registro.funcionario}</td>
           <td style="font-size: small; width: 5%;">${registro.user_funcionario}</td>
-          <td style="font-size: small; width: 10%;">${registro.nicho}</td>
+          <td style="font-size: small; width: 5%;">${registro.nicho}</td>
           <td style="font-size: small; width: 5%;">${registro.voto}</td>
-          <td style="font-size: small; width: 5%;">
+          <td style="font-size: small; width: 10%;">
             <a href="/editar_registro/${registro.ID}" class="button is-small is-info has-tooltip-bottom" data-tooltip="Editar" style="padding: 0em 1.0em;">
                 <span class="icon is-small"><i aria-hidden="true"><img src="./static/img/icons/editar.png" alt="icon-editar"></i></span>
             </a>
             <a onclick="activarModalCargueCert(${registro.ID}, '${registro.nuip}', '${registro.votante}')" class="link_cert button is-small is-info has-tooltip-bottom" data-tooltip="Confirmar Voto y Cargar Cert. Electoral" style="padding: 0em 1.0em;">
                 <span class="icon is-small"><i aria-hidden="true"><img src="./static/img/icons/voto.png" alt="icon-voto"></i></span>
             </a>
+            <a onclick="activarModalVerCert('${registro.base64}')" class="link_ver_cert button is-small is-info has-tooltip-bottom" data-tooltip="Ver Certificado" style="padding: 0em 1.0em;">
+                <span class="icon is-small"><i aria-hidden="true"><img src="./static/img/icons/vista.png" alt="icon-vista"></i></span>
+            </a>
           </td>
         `;
       });
-      console.log(desactivarEnlaces());
+      desactivarEnlaces();
   })
   .catch(error => console.error("error: ", error))
 }
@@ -87,6 +90,18 @@ fileInputCert.onchange = () => {
   if (fileInputCert.files.length > 0) {
     const fileName = document.querySelector("#file-certificado .file-name");
     fileName.textContent = fileInputCert.files[0].name;
+  }
+
+  /* Validar tamaño del pdf */
+  if(fileInputCert.files[0].size > 1048576){
+    Swal.fire({
+      title: "Advertencia!",
+      text: "el archivo excede el tamaño permitido (1 MB).",
+      icon: "warning"
+    });
+    const fileName = document.querySelector("#file-certificado .file-name");
+    fileName.textContent = "No hay PDF cargado";
+    return;
   }
 };
 
@@ -144,17 +159,66 @@ formCargueRegistrosMasivos.addEventListener("submit", (e) => {
   })
 });
 
+/* Activar Modal ver Certificados */
+const modalVerCertificado = document.getElementById("modalVerCertificado");
+const btn_cerrarModalVerCert = document.getElementById("btn_cerrarModalVerCert");
+const iframeCert = document.getElementById("iframeCert");
+const activarModalVerCert = (base64) => {
+  modalVerCertificado.classList.remove("is-hidden");
+  modalVerCertificado.classList.add("is-active");
+  
+
+  // 1. Decodificar la cadena Base64
+    const byteCharacters = atob(base64);
+    
+    // 2. Crear un array de bytes
+    const byteNumbers = new Array(byteCharacters.length);
+    for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+    }
+    
+    // 3. Convertir a Uint8Array
+    const byteArray = new Uint8Array(byteNumbers);
+    
+    // 4. Crear el objeto Blob (Binary Large Object)
+    const blob = new Blob([byteArray], { type: 'application/pdf' });
+    
+    // 5. Crear una URL interna temporal que apunta a ese Blob
+    const blobUrl = URL.createObjectURL(blob);
+    iframeCert.src = blobUrl;
+}
+
+btn_cerrarModalVerCert.addEventListener("click", (e) => {
+  e.preventDefault();
+  modalVerCertificado.classList.remove("is-active");
+
+  // Liberar la URL para ahorrar memoria y limpiar el iframe
+    if (iframeCert.src.startsWith('blob:')) {
+        URL.revokeObjectURL(iframeCert.src);
+        iframeCert.src = ""; 
+    }
+})
+
 /* Activar y Desactivar Botones */
 const desactivarEnlaces = () => {
   let filas = document.querySelectorAll("#tablaRegistros tr");
   filas.forEach(fila => {
       const valor_voto = fila.cells[7].innerText.trim();
+      /* Desactivar Cargar Certificado */
       if(valor_voto === "SÍ"){
-          const link_cert = fila.querySelector(".link_cert");
-          if(link_cert){
-            link_cert.classList.add("enlace-desactivado");
-            link_cert.removeAttribute("onclick")
-          };  
+        const link_cert = fila.querySelector(".link_cert");
+        if(link_cert){
+          link_cert.classList.add("enlace-desactivado");
+          link_cert.removeAttribute("onclick");
+        }  
+      };
+      /* Desactivar Ver Certificado */
+      if(valor_voto === "NO"){
+        const link_ver_cert = fila.querySelector(".link_ver_cert");
+        if(link_ver_cert){
+          link_ver_cert.classList.add("enlace-desactivado");
+          link_ver_cert.removeAttribute("onclick");
+        }
       };
   });
 };

@@ -1,4 +1,5 @@
 from app.database import db
+import base64
 
 #Nuevo Registro
 def insert_registro(tipo_documento, nuip, nombre_completo, fecha_nacimiento, direccion, telefono, email,
@@ -64,7 +65,8 @@ def list_registros_nuip(nuip):
     registros = []
     nuip = f"{nuip}%"
     conn = db.connection()
-    operation = """ SELECT rg.id_registro ID, rg.nuip NUIP, rg.nombre_completo VOTANTE, c.nom_camp CAMPAÑA, u.nombre_completo FUNCIONARIO, rg.usuario_registro USER_FUNCIONARIO, n.nom_nicho NICHO, rg.voto_ejercido VOTO
+    operation = """ SELECT rg.id_registro ID, rg.nuip NUIP, rg.nombre_completo VOTANTE, c.nom_camp CAMPAÑA, u.nombre_completo FUNCIONARIO, rg.usuario_registro USER_FUNCIONARIO, n.nom_nicho NICHO, 
+                    rg.voto_ejercido VOTO, rg.cert_voto CERT
                     FROM registros rg 
                     LEFT JOIN usuarios u on rg.usuario_registro = u.usuario
                     LEFT JOIN camp_electoral c on c.id_camp = rg.camp_asignada
@@ -74,7 +76,13 @@ def list_registros_nuip(nuip):
         cursor.execute(operation, (nuip, ))
         result = cursor.fetchall()
         for row in result:
-            registros.append({'ID': row[0], 'nuip': row[1], 'votante': row[2], 'camp': row[3], 'funcionario': row[4], 'user_funcionario': row[5], 'nicho': row[6], 'voto': row[7]})
+            certificado = row[8]
+            encode_cert = None
+            
+            if certificado:
+                encode_cert = base64.b64encode(certificado).decode('utf-8')
+
+            registros.append({'ID': row[0], 'nuip': row[1], 'votante': row[2], 'camp': row[3], 'funcionario': row[4], 'user_funcionario': row[5], 'nicho': row[6], 'voto': row[7], 'base64': encode_cert})
 
     conn.close()
     return registros
