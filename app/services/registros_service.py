@@ -167,3 +167,78 @@ def insert_masivo_registros(archivo):
 
     finally:
         conn.close()
+
+#Metodo para obtener todos los registros para reporte excel
+def listar_registros_reporte():
+    registros = []
+    conn = db.connection()
+    query = """ SELECT 
+                    r.nuip NUIP, 
+                    r.nombre_completo NOMBRE,
+                    r.direccion DIRECCION,
+                    r.telefono TELEFONOS,
+                    r.nom_depto DEPARTAMENTO,
+                    r.nom_municipio MUNICIPIO,
+                    r.puesto_votacion PUESTO, 
+                    r.mesa_votacion MESA,
+                    r.voto_ejercido VOTO_CONFIRMADO,
+                    f.nom_funcionario FUNCIONARIO_REGISTRO, 
+                    rf.nom_rol ROL_FUNCIONARIO,
+                    -- Obtenemos el Enlace (si existe)
+                    COALESCE(elc.nom_funcionario, 'N/A') as ENLACE_FUNCIONARIO,
+                    -- LÓGICA DE ADMINISTRADOR MEJORADA:
+                    -- 1. Intenta obtener el admin directo.
+                    -- 2. Si es nulo, intenta obtener el admin asociado al enlace.
+                    -- 3. Si ambos son nulos, pon 'N/A'.
+                    COALESCE(adm.nom_funcionario, adm_via_enlace.nom_funcionario, 'N/A') as ADMINISTRADOR_FUNCIONARIO
+                FROM registros r
+                LEFT JOIN usuarios u on u.usuario = r.usuario_registro
+                LEFT JOIN funcionarios f on f.nuip_funcionario = u.doc_usuario
+                LEFT JOIN roles_funcionarios rf on rf.cod_rol = f.rol_funcionario
+
+                -- 1. Busca el Enlace del funcionario actual
+                LEFT JOIN funcionarios elc on elc.nuip_funcionario = f.enlace_asociado
+
+                -- 2. Busca el Admin directo del funcionario actual
+                LEFT JOIN funcionarios adm on adm.nuip_funcionario = f.admin_asociado
+
+                -- 3. (NUEVO) Busca el Admin del Enlace encontrado en el paso 1
+                LEFT JOIN funcionarios adm_via_enlace on adm_via_enlace.nuip_funcionario = elc.admin_asociado;
+
+                SELECT r.nuip, r.nombre_completo, r.puesto_votacion, r.mesa_votacion, f.nom_funcionario, rf.nom_rol,
+                COALESCE(elc.nom_funcionario, 'N/A') as enlace,
+                COALESCE(adm.nom_funcionario, 'N/A') as administrador
+                FROM registros r
+                LEFT JOIN usuarios u on u.usuario = r.usuario_registro
+                LEFT JOIN funcionarios f on f.nuip_funcionario = u.doc_usuario
+                LEFT JOIN funcionarios adm on adm.nuip_funcionario = f.admin_asociado
+                LEFT JOIN funcionarios elc on elc.nuip_funcionario= f.enlace_asociado
+                LEFT JOIN roles_funcionarios rf on rf.cod_rol = f.rol_funcionario """
+    
+    try:
+        with conn.cursor() as cursor:
+            cursor.execute(query)
+            result = cursor.fetchall()
+            for row in result:
+                registros.append({'NUIP': row[0], 
+                                  'NOMBRE': row[1], 
+                                  'DIRECCION': row[2], 
+                                  'TELEFONOS': row[3], 
+                                  'DEPARTAMENTO': row[4],
+                                  'MUNICIPIO': row[5],
+                                  'PUESTO': row[6],
+                                  'MESA': row[7],
+                                  'VOTO_CONFIRMADO': row[8],
+                                  'FUNCIONARIO_REGISTRO': row[9],
+                                  'ROL_FUNCIONARIO': row[10],
+                                  'ENLACE_FUNCIONARIO': row[11],
+                                  'ADMINISTRADOR_FUNCIONARIO': row[12]})
+
+        return registros        
+
+    except Exception as ex:
+        conn.rollback()
+        raise ex
+    
+    finally:
+        conn.close()

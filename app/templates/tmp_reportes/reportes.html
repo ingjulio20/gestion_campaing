@@ -1,0 +1,26 @@
+{% extends 'menu.html' %}
+
+{% block css %}
+{% endblock %}
+
+{% block header_scripts %}
+{% endblock %}
+
+{% block title %}Reportes{% endblock %}
+
+{% block content %}
+<h4 class="title is-4">Reportes</h4>
+<div class="container">
+    <div class="field is-grouped">
+        <p class="control">
+            <a href="{{ url_for('reportes.listado_registros') }}" class="button is-normal is-info">
+                <span class="icon is-small"><i aria-hidden="true"><img src="{{ url_for('static', filename='img/icons/excel.png') }}" alt="icon-excel"></i></span>
+                <span>Descargar Listado General de Simpatizantes</span>
+            </a>
+        </p>
+    </div>
+</div>
+{% endblock %}
+
+{% block foot_scripts %}
+{% endblock %}
