@@ -63,7 +63,7 @@ def delete_registro(id_registro):
 #Listar todos los registros x nuip
 def list_registros_nuip(nuip):
     registros = []
-    nuip = f"{nuip}%"
+    #nuip = f"{nuip}%"
     conn = db.connection()
     operation = """ SELECT rg.id_registro ID, rg.nuip NUIP, rg.nombre_completo VOTANTE, c.nom_camp CAMPAÑA, u.nombre_completo FUNCIONARIO, rg.usuario_registro USER_FUNCIONARIO, n.nom_nicho NICHO, 
                     rg.voto_ejercido VOTO, rg.cert_voto CERT
@@ -71,7 +71,7 @@ def list_registros_nuip(nuip):
                     LEFT JOIN usuarios u on rg.usuario_registro = u.usuario
                     LEFT JOIN camp_electoral c on c.id_camp = rg.camp_asignada
                     LEFT JOIN nichos n on n.cod_nicho = rg.nicho
-                    WHERE rg.nuip LIKE %s """
+                    WHERE rg.nuip = %s """
     with conn.cursor() as cursor:
         cursor.execute(operation, (nuip, ))
         result = cursor.fetchall()

@@ -85,8 +85,12 @@
                     </span>
                 </a>
                 <div class="navbar-dropdown">
-                     <a href="{{ url_for('index.logout')}}" class="navbar-item">
-                        <span class="icon is-small"><img src="{{ url_for('static', filename='img/icons/salida.png') }}" alt="icon-salida"></span>
+                    <a href="https://api.whatsapp.com/send/?phone=573017094993&text=Hola+necesito+soporte&type=phone_number&app_absent=0" class="navbar-item" target="_blank">
+                        <span class="icon is-small"><i aria-hidden="true"><img src="{{ url_for('static', filename='img/icons/soporte.png') }}" alt="icon-soporte"></i></span>
+                        <span>¿Necesita Soporte?</span>
+                    </a>
+                    <a href="{{ url_for('index.logout')}}" class="navbar-item">
+                        <span class="icon is-small"><i aria-hidden="true"><img src="{{ url_for('static', filename='img/icons/salida.png') }}" alt="icon-salida"></i></span>
                         <span>Salir</span>
                     </a>
                 </div>

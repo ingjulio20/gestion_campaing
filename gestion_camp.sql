@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 17-10-2025 a las 04:49:30
+-- Tiempo de generación: 20-12-2025 a las 18:02:27
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.0.28
 
@@ -20,6 +20,26 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `gestion_camp`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `camp_electoral`
+--
+
+CREATE TABLE `camp_electoral` (
+  `id_camp` int(11) NOT NULL,
+  `nom_camp` varchar(70) NOT NULL,
+  `meta_votantes` int(11) NOT NULL,
+  `meta_votos` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `camp_electoral`
+--
+
+INSERT INTO `camp_electoral` (`id_camp`, `nom_camp`, `meta_votantes`, `meta_votos`) VALUES
+(1, 'CAMARA AFRO #YOMEATREVO', 210000, 70000);
 
 -- --------------------------------------------------------
 
@@ -95,6 +115,23 @@ INSERT INTO `etnias` (`cod_etnia`, `nom_etnia`) VALUES
 (6, 'LGTBIQ+'),
 (7, 'Otras etnias'),
 (8, 'Ninguna');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `funcionarios`
+--
+
+CREATE TABLE `funcionarios` (
+  `id_funcionario` int(11) NOT NULL,
+  `nuip_funcionario` varchar(50) NOT NULL,
+  `nom_funcionario` varchar(150) NOT NULL,
+  `dir_funcionario` varchar(100) NOT NULL,
+  `tel_funcionario` varchar(50) NOT NULL,
+  `rol_funcionario` int(11) NOT NULL,
+  `admin_asociado` varchar(50) DEFAULT NULL,
+  `enlace_asociado` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -1240,6 +1277,28 @@ INSERT INTO `municipios` (`cod_municipio`, `nom_municipio`, `cod_depto`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `nichos`
+--
+
+CREATE TABLE `nichos` (
+  `cod_nicho` int(11) NOT NULL,
+  `nom_nicho` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `nichos`
+--
+
+INSERT INTO `nichos` (`cod_nicho`, `nom_nicho`) VALUES
+(1, 'Empresas'),
+(2, 'Aliados'),
+(3, 'Amigos'),
+(4, 'Talento Humano'),
+(5, 'Lideres');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `perfiles_usuarios`
 --
 
@@ -1253,8 +1312,9 @@ CREATE TABLE `perfiles_usuarios` (
 --
 
 INSERT INTO `perfiles_usuarios` (`id_perfil`, `nom_perfil`) VALUES
-(1, 'Digitador'),
-(2, 'Administrador');
+(1, 'Administrador'),
+(2, 'Enlace'),
+(3, 'Líder');
 
 -- --------------------------------------------------------
 
@@ -1267,7 +1327,7 @@ CREATE TABLE `registros` (
   `tipo_documento` varchar(3) NOT NULL,
   `nuip` varchar(50) NOT NULL,
   `nombre_completo` varchar(150) NOT NULL,
-  `fecha_nacimiento` date NOT NULL,
+  `fecha_nacimiento` date DEFAULT NULL,
   `direccion` varchar(100) NOT NULL,
   `telefono` varchar(70) NOT NULL,
   `email` varchar(100) NOT NULL,
@@ -1277,8 +1337,35 @@ CREATE TABLE `registros` (
   `nom_municipio` varchar(100) NOT NULL,
   `sexo` varchar(30) NOT NULL,
   `etnia` int(10) NOT NULL,
+  `puesto_votacion` varchar(150) DEFAULT NULL,
+  `direccion_puesto` varchar(100) DEFAULT NULL,
+  `mesa_votacion` varchar(10) DEFAULT NULL,
+  `camp_asignada` int(11) NOT NULL,
+  `nicho` int(11) NOT NULL,
+  `voto_ejercido` char(2) DEFAULT 'NO',
+  `cert_voto` longblob DEFAULT NULL,
   `usuario_registro` varchar(40) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `roles_funcionarios`
+--
+
+CREATE TABLE `roles_funcionarios` (
+  `cod_rol` int(11) NOT NULL,
+  `nom_rol` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `roles_funcionarios`
+--
+
+INSERT INTO `roles_funcionarios` (`cod_rol`, `nom_rol`) VALUES
+(1, 'Administrador'),
+(2, 'Enlace'),
+(3, 'Líder');
 
 -- --------------------------------------------------------
 
@@ -1329,11 +1416,17 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`doc_usuario`, `nombre_completo`, `usuario`, `password`, `perfil`) VALUES
-('101025', 'System Admin', 'superuser', '$2b$12$G3IjOiPIUDXD4g4UnVrBPOMdHK4asE3DrRD7eUqxlbsbp/AO/sir6', 2);
+('101025', 'System Admin', 'superuser', '$2b$12$G3IjOiPIUDXD4g4UnVrBPOMdHK4asE3DrRD7eUqxlbsbp/AO/sir6', 1);
 
 --
 -- Índices para tablas volcadas
 --
+
+--
+-- Indices de la tabla `camp_electoral`
+--
+ALTER TABLE `camp_electoral`
+  ADD PRIMARY KEY (`id_camp`);
 
 --
 -- Indices de la tabla `departamentos`
@@ -1348,10 +1441,24 @@ ALTER TABLE `etnias`
   ADD PRIMARY KEY (`cod_etnia`);
 
 --
+-- Indices de la tabla `funcionarios`
+--
+ALTER TABLE `funcionarios`
+  ADD PRIMARY KEY (`id_funcionario`) USING BTREE,
+  ADD UNIQUE KEY `nuip_funcionario` (`nuip_funcionario`),
+  ADD KEY `rol_funcionario` (`rol_funcionario`);
+
+--
 -- Indices de la tabla `municipios`
 --
 ALTER TABLE `municipios`
   ADD PRIMARY KEY (`cod_municipio`);
+
+--
+-- Indices de la tabla `nichos`
+--
+ALTER TABLE `nichos`
+  ADD PRIMARY KEY (`cod_nicho`);
 
 --
 -- Indices de la tabla `perfiles_usuarios`
@@ -1365,6 +1472,12 @@ ALTER TABLE `perfiles_usuarios`
 ALTER TABLE `registros`
   ADD PRIMARY KEY (`id_registro`),
   ADD UNIQUE KEY `nuip` (`nuip`) USING BTREE;
+
+--
+-- Indices de la tabla `roles_funcionarios`
+--
+ALTER TABLE `roles_funcionarios`
+  ADD PRIMARY KEY (`cod_rol`);
 
 --
 -- Indices de la tabla `tipos_documento`
@@ -1384,16 +1497,34 @@ ALTER TABLE `usuarios`
 --
 
 --
+-- AUTO_INCREMENT de la tabla `camp_electoral`
+--
+ALTER TABLE `camp_electoral`
+  MODIFY `id_camp` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT de la tabla `etnias`
 --
 ALTER TABLE `etnias`
   MODIFY `cod_etnia` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
+-- AUTO_INCREMENT de la tabla `funcionarios`
+--
+ALTER TABLE `funcionarios`
+  MODIFY `id_funcionario` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `nichos`
+--
+ALTER TABLE `nichos`
+  MODIFY `cod_nicho` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
 -- AUTO_INCREMENT de la tabla `perfiles_usuarios`
 --
 ALTER TABLE `perfiles_usuarios`
-  MODIFY `id_perfil` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_perfil` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `registros`
@@ -1402,8 +1533,20 @@ ALTER TABLE `registros`
   MODIFY `id_registro` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT de la tabla `roles_funcionarios`
+--
+ALTER TABLE `roles_funcionarios`
+  MODIFY `cod_rol` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- Restricciones para tablas volcadas
 --
+
+--
+-- Filtros para la tabla `funcionarios`
+--
+ALTER TABLE `funcionarios`
+  ADD CONSTRAINT `funcionarios_ibfk_1` FOREIGN KEY (`rol_funcionario`) REFERENCES `roles_funcionarios` (`cod_rol`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `usuarios`

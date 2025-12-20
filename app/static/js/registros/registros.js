@@ -3,6 +3,27 @@ const buscar_registro = document.getElementById("buscar_registro");
 const btn_buscar = document.getElementById("btn_buscar");
 const tablaRegistros = document.getElementById("tablaRegistros");
 
+/* Validar Campo de NUIP */
+const validar = () => {
+  let nuip = buscar_registro.value;
+  if(!nuip){
+    Swal.fire({
+      title: "Advertencia!",
+      text: "Debe diligenciar el NUIP para buscar el registro.",
+      icon: "warning"
+    })
+    .then(result => {
+      if(result.isConfirmed){
+        buscar_registro.focus();
+      }
+    })
+    return;
+  } else {
+    getRegistrosNuip();
+  }
+}
+
+
 /* Fetch Obtener los registros por nuip */
 const getRegistrosNuip = () => {
   let nuip = buscar_registro.value;
@@ -59,7 +80,7 @@ const getRegistrosNuip = () => {
 
 btn_buscar.addEventListener("click", (e) => {
   e.preventDefault();
-  getRegistrosNuip();
+  validar();
 });
 
 /* Activar Modal Cargue Certificado */
